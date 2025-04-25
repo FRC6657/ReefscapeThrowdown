@@ -133,14 +133,15 @@ public class Constants {
   public static final class MAXSwerveConstants {
 
     public static enum DriveRatio {
-      LOW(12,22d),
-      MEDIUM(13,22d),
-      HIGH(14,22d),
-      EH1(14,21d),
-      EH2(14,20d),
-      EH3(15,20d),
-      EH4(16,20d),
-      EH5(16,19d),;
+      LOW(12, 22d),
+      MEDIUM(13, 22d),
+      HIGH(14, 22d),
+      EH1(14, 21d),
+      EH2(14, 20d),
+      EH3(15, 20d),
+      EH4(16, 20d),
+      EH5(16, 19d),
+      ;
 
       public final double ratio;
 
@@ -148,7 +149,6 @@ public class Constants {
         this.ratio = spurTeeth / pinionTeeth;
       }
     }
-
 
     public static final double kDriveMotorRatio = DriveRatio.HIGH.ratio;
 
