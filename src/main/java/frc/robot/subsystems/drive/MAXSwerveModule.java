@@ -3,13 +3,20 @@ package frc.robot.subsystems.drive;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import frc.robot.subsystems.drive.GyroIO.GyroIOInputs;
+import frc.robot.subsystems.drive.MAXSwerveIO.MAXSwerveIOInputs;
+
 import org.littletonrobotics.junction.Logger;
+import org.littletonrobotics.junction.inputs.LoggableInputs;
+import org.littletonrobotics.junction.AutoLogOutput;
 
 public class MAXSwerveModule {
 
   // MAXSwerve IO
   private final MAXSwerveIO io;
-  private final MAXSwerveIOInputsAutoLogged inputs = new MAXSwerveIOInputsAutoLogged();
+  private final MAXSwerveIOInputs inputs = new MAXSwerveIOInputs();
+  //private final GyroIOInputs inputs = new GyroIOInputs();
+  //private final MAXSwerveIOInputsAutoLogged inputs = new MAXSwerveIOInputsAutoLogged();
 
   // Name to identify the module
   public final String name;
@@ -21,7 +28,7 @@ public class MAXSwerveModule {
 
   public void updateInputs() {
     io.updateInputs(inputs);
-    Logger.processInputs("Swerve/" + name + " Module", inputs);
+    Logger.processInputs("Swerve/" + name + " Module", (LoggableInputs) inputs);
   }
 
   /**
@@ -40,7 +47,7 @@ public class MAXSwerveModule {
   /** Logs the module IO */
   public void periodic() {
     io.updateInputs(inputs);
-    Logger.processInputs("Swerve/" + name + " Module", inputs);
+    Logger.processInputs("Swerve/" + name + " Module", (LoggableInputs) inputs);
   }
 
   public void stop() {
