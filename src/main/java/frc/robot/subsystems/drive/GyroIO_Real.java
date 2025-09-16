@@ -7,14 +7,16 @@ import com.ctre.phoenix6.configs.Pigeon2Configuration;
 import com.ctre.phoenix6.hardware.Pigeon2;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.units.measure.AngularVelocity;
 import frc.robot.Constants.CANID;
 import frc.robot.Constants.CodeConstants;
 
 public class GyroIO_Real implements GyroIO {
 
   private final Pigeon2 pigeon = new Pigeon2(CANID.kPigeon);
-  private final StatusSignal<Double> yaw = pigeon.getYaw();
-  private final StatusSignal<Double> yawVelocity = pigeon.getAngularVelocityZDevice();
+  private final StatusSignal<Angle> yaw = pigeon.getYaw();
+  private final StatusSignal<AngularVelocity> yawVelocity = pigeon.getAngularVelocityZDevice();
 
   /** Gyro IO for real robot */
   public GyroIO_Real() {

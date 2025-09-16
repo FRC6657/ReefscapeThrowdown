@@ -1,22 +1,20 @@
 package frc.robot.subsystems.drive;
 
 import com.revrobotics.AbsoluteEncoder;
-// import com.revrobotics.CANSparkBase.ControlType;
-// import com.revrobotics.CANSparkLowLevel.MotorType;
-// import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
-// import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkBase.ControlType;
+import com.revrobotics.spark.SparkBase.PersistMode;
+import com.revrobotics.spark.SparkBase.ResetMode;
+import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkLowLevel.PeriodicFrame;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.ExternalEncoderConfig.Type;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+import com.revrobotics.spark.config.SparkBaseConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
-
-// import com.revrobotics.SparkAbsoluteEncoder.Type;
-// import com.revrobotics.SparkPIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.RobotController;
@@ -60,8 +58,6 @@ public class MAXSwerveIO_Real implements MAXSwerveIO {
     driveMotor = new SparkMax(moduleInformation.driveCAN_ID, MotorType.kBrushless);
     turnMotor = new SparkMax(moduleInformation.turnCAN_ID, MotorType.kBrushless);
 
-    
-
     //driveMotor.restoreFactoryDefaults();
     //turnMotor.restoreFactoryDefaults();
 
@@ -69,9 +65,6 @@ public class MAXSwerveIO_Real implements MAXSwerveIO {
     turnEncoder = turnMotor.getAbsoluteEncoder(); 
     
     //Type.kDutyCycle? I think this may outdated
-
-    drivePID = driveMotor.getClosedLoopController();
-    turnPID = turnMotor.getClosedLoopController();
 
     driveConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder); // relative encoder
     driveConfig.closedLoop.pid(MAXSwerveConstants.kDriveP, MAXSwerveConstants.kDriveI, MAXSwerveConstants.kDriveD);
@@ -85,18 +78,33 @@ public class MAXSwerveIO_Real implements MAXSwerveIO {
     // drivePID.setFeedbackDevice(driveEncoder);
     // turnPID.setFeedbackDevice(turnEncoder);
 
-    driveEncoder.setPositionConversionFactor(MAXSwerveConstants.kDriveEncoderPositionFactor);
-    driveEncoder.setVelocityConversionFactor(MAXSwerveConstants.kDriveEncoderVelocityFactor);
-    driveEncoder.setMeasurementPeriod((int) (1000 / CodeConstants.kMainLoopFrequency));
-    driveEncoder.setAverageDepth(2);
+    // driveEncoder.setPositionConversionFactor(MAXSwerveConstants.kDriveEncoderPositionFactor);
+    // driveEncoder.setVelocityConversionFactor(MAXSwerveConstants.kDriveEncoderVelocityFactor);
+    // driveEncoder.setMeasurementPeriod((int) (1000 / CodeConstants.kMainLoopFrequency));
+    // driveEncoder.setAverageDepth(2);
 
-    turnEncoder.setPositionConversionFactor(MAXSwerveConstants.kTurnEncoderPositionFactor);
-    turnEncoder.setVelocityConversionFactor(MAXSwerveConstants.kTurnEncoderVelocityFactor);
-    turnEncoder.setInverted(MAXSwerveConstants.kTurnEncoderInverted);
+    driveConfig.encoder.positionConversionFactor(MAXSwerveConstants.kDriveEncoderPositionFactor); // meters
+    driveConfig.encoder.velocityConversionFactor(MAXSwerveConstants.kDriveEncoderPositionFactor); // meters per second
+    driveConfig.encoder.uvwMeasurementPeriod((int) (1000 / CodeConstants.kMainLoopFrequency));
+    driveConfig.encoder.uvwAverageDepth(2);
 
-    turnPID.setPositionPIDWrappingEnabled(true);
-    turnPID.setPositionPIDWrappingMinInput(MAXSwerveConstants.kTurnEncoderPositionPIDMinInput);
-    turnPID.setPositionPIDWrappingMaxInput(MAXSwerveConstants.kTurnEncoderPositionPIDMaxInput);
+    // turnEncoder.setPositionConversionFactor(MAXSwerveConstants.kTurnEncoderPositionFactor);
+    // turnEncoder.setVelocityConversionFactor(MAXSwerveConstants.kTurnEncoderVelocityFactor);
+    // turnEncoder.setInverted(MAXSwerveConstants.kTurnEncoderInverted);
+
+    turnConfig.encoder.positionConversionFactor(MAXSwerveConstants.kTurnEncoderPositionFactor);
+    turnConfig.encoder.velocityConversionFactor(MAXSwerveConstants.kTurnEncoderVelocityFactor);
+    turnConfig.encoder.inverted(MAXSwerveConstants.kTurnEncoderInverted);
+
+    turnConfig.closedLoop.positionWrappingEnabled(true);
+    turnConfig.closedLoop.positionWrappingInputRange(MAXSwerveConstants.kTurnEncoderPositionPIDMinInput, MAXSwerveConstants.kTurnEncoderPositionPIDMaxInput);
+
+    drivePID = driveMotor.getClosedLoopController();
+    turnPID = turnMotor.getClosedLoopController();
+
+    // turnPID.setPositionPIDWrappingEnabled(true);
+    // turnPID.setPositionPIDWrappingMinInput(MAXSwerveConstants.kTurnEncoderPositionPIDMinInput);
+    // turnPID.setPositionPIDWrappingMaxInput(MAXSwerveConstants.kTurnEncoderPositionPIDMaxInput);
 
     // drivePID.setP(MAXSwerveConstants.kDriveP);
     // drivePID.setI(MAXSwerveConstants.kDriveI);
@@ -109,22 +117,26 @@ public class MAXSwerveIO_Real implements MAXSwerveIO {
     // turnPID.setFF(MAXSwerveConstants.kTurnFF);
     // turnPID.setOutputRange(MAXSwerveConstants.kTurnMinOutput, MAXSwerveConstants.kTurnMaxOutput);
 
-    driveMotor.setIdleMode(MAXSwerveConstants.kDriveIdleMode);
-    turnMotor.setIdleMode(MAXSwerveConstants.kTurnIdleMode);
+    driveConfig.idleMode(IdleMode.kBrake);
+    turnConfig.idleMode(IdleMode.kBrake);
 
-    driveMotor.setSmartCurrentLimit(MAXSwerveConstants.kDriveCurrentLimit);
-    turnMotor.setSmartCurrentLimit(MAXSwerveConstants.kTurnCurrentLimit);
+    driveConfig.smartCurrentLimit(MAXSwerveConstants.kDriveCurrentLimit);
+    turnConfig.smartCurrentLimit(MAXSwerveConstants.kTurnCurrentLimit);
 
+/* 
     driveMotor.setPeriodicFramePeriod(
         PeriodicFrame.kStatus2, (int) (1000 / CodeConstants.kMainLoopFrequency));
     turnMotor.setPeriodicFramePeriod(
         PeriodicFrame.kStatus2, (int) (1000 / CodeConstants.kMainLoopFrequency));
+*/ // I can't find the replacement for this yet.
 
+    driveMotor.configure(driveConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+/*m_drivingSpark.configure(Configs.MAXSwerveModule.drivingConfig, ResetMode.kResetSafeParameters,
+        PersistMode.kPersistParameters); */
 
-    driveMotor.configure(null, null, null);
-    
-    driveMotor.burnFlash();
-    turnMotor.burnFlash();
+    // I am not sure if there is a replacement for these two
+    // driveMotor.burnFlash();
+    // turnMotor.burnFlash();
   }
 
   /** Updates the IO */
@@ -156,7 +168,7 @@ public class MAXSwerveIO_Real implements MAXSwerveIO {
   @Override
   public void setDriveMPS(double mps) {
     driveSetpoint = mps;
-    drivePID.setReference(mps, ControlType.kVelocity, 0, arbFF);
+    drivePID.setReference(mps, ControlType.kVelocity, ClosedLoopSlot.kSlot0, arbFF);
   }
 
   /** Sets the turn angle setpoint */
