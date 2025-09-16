@@ -8,16 +8,24 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 import frc.robot.Constants.CodeConstants;
 import frc.robot.Constants.MAXSwerveConstants;
+import edu.wpi.first.math.system.plant.LinearSystemId;
+
 
 public class MAXSwerveIO_Sim implements MAXSwerveIO {
 
-  private DCMotorSim driveMotor =
-      new DCMotorSim(DCMotor.getNEO(1), MAXSwerveConstants.kDriveMotorReduction, 0.025);
 
-  private DCMotorSim turnMotor =
-      new DCMotorSim(DCMotor.getNeo550(1), MAXSwerveConstants.kTurnMotorReduction, 0.025);
+  // private DCMotorSim driveMotor =
+  //     new DCMotorSim(DCMotor.getNEO(1), MAXSwerveConstants.kDriveMotorReduction, 0.025);
 
-  private final Rotation2d turnAbsoluteInitialPosition =
+  // private DCMotorSim turnMotor =
+  //     new DCMotorSim(DCMotor.getNeo550(1), MAXSwerveConstants.kTurnMotorReduction, 0.025);
+
+  
+
+  private DCMotorSim driveSim = new DCMotorSim(null, null, null);
+  private DCMotorSim turnSim = new DCMotorSim(null, null, null);
+  
+      private final Rotation2d turnAbsoluteInitialPosition =
       new Rotation2d(Math.random() * 2 * Math.PI);
 
   private double driveVolts = 0.0;
@@ -35,7 +43,7 @@ public class MAXSwerveIO_Sim implements MAXSwerveIO {
     // Set the range of the turn motor
     turnController.enableContinuousInput(-Math.PI, Math.PI);
     // Set the initial position of the turn motor
-    turnMotor.setState(turnAbsoluteInitialPosition.getRadians(), 0);
+    turnSim.setState(turnAbsoluteInitialPosition.getRadians(), 0);
   }
 
   @Override
@@ -44,40 +52,40 @@ public class MAXSwerveIO_Sim implements MAXSwerveIO {
     setDriveVoltage(
         driveFeedforward.calculate(mpsSetpoint)
             + driveController.calculate(
-                (driveMotor.getAngularVelocityRPM() * MAXSwerveConstants.kWheelCircumferenceMeters)
+                (driveSim.getAngularVelocityRPM() * MAXSwerveConstants.kWheelCircumferenceMeters)
                     / 60,
                 mpsSetpoint));
     setTurnVoltage(
         turnController.calculate(getTurnAngle().getRadians(), turnAngleSetpoint.getRadians()));
 
     // Step the simulation forward
-    driveMotor.update(1 / CodeConstants.kMainLoopFrequency);
-    turnMotor.update(1 / CodeConstants.kMainLoopFrequency);
+    driveSim.update(1 / CodeConstants.kMainLoopFrequency);
+    turnSim.update(1 / CodeConstants.kMainLoopFrequency);
 
     // Update the inputs
     inputs.drivePositionMeters =
-        driveMotor.getAngularPositionRotations() * MAXSwerveConstants.kWheelCircumferenceMeters;
+        driveSim.getAngularPositionRotations() * MAXSwerveConstants.kWheelCircumferenceMeters;
     inputs.driveVelocityMPS =
-        (driveMotor.getAngularVelocityRPM() * MAXSwerveConstants.kWheelCircumferenceMeters) / 60;
+        (driveSim.getAngularVelocityRPM() * MAXSwerveConstants.kWheelCircumferenceMeters) / 60;
     inputs.driveAppliedVolts = driveVolts;
-    inputs.driveCurrentAmps = driveMotor.getCurrentDrawAmps();
+    inputs.driveCurrentAmps = driveSim.getCurrentDrawAmps();
 
-    inputs.turnPositionRad = new Rotation2d(turnMotor.getAngularPositionRad());
-    inputs.turnVelocityRadPerSec = turnMotor.getAngularVelocityRadPerSec();
+    inputs.turnPositionRad = new Rotation2d(turnSim.getAngularPositionRad());
+    inputs.turnVelocityRadPerSec = turnSim.getAngularVelocityRadPerSec();
     inputs.turnAppliedVolts = turnVolts;
-    inputs.turnCurrentAmps = turnMotor.getCurrentDrawAmps();
+    inputs.turnCurrentAmps = turnSim.getCurrentDrawAmps();
   }
 
   /** Sets the drive motor voltage */
   public void setDriveVoltage(double volts) {
     driveVolts = MathUtil.clamp(volts, -12, 12);
-    driveMotor.setInputVoltage(volts);
+    driveSim.setInputVoltage(volts);
   }
 
   /** Sets the turn motor voltage */
   public void setTurnVoltage(double volts) {
     turnVolts = MathUtil.clamp(volts, -12, 12);
-    turnMotor.setInputVoltage(turnVolts);
+    turnSim.setInputVoltage(turnVolts);
   }
 
   /** Sets the drive MPS setpoint */
@@ -96,6 +104,6 @@ public class MAXSwerveIO_Sim implements MAXSwerveIO {
   /** Gets the turn angle */
   @Override
   public Rotation2d getTurnAngle() {
-    return Rotation2d.fromRadians(turnMotor.getAngularPositionRad());
+    return Rotation2d.fromRadians(turnSim.getAngularPositionRad());
   }
 }
