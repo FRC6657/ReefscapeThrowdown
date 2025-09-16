@@ -20,8 +20,6 @@ public class MAXSwerveIO_Sim implements MAXSwerveIO {
   // private DCMotorSim turnMotor =
   //     new DCMotorSim(DCMotor.getNeo550(1), MAXSwerveConstants.kTurnMotorReduction, 0.025);
 
-  
-
   private DCMotorSim driveSim = new DCMotorSim(null, null, null);
   private DCMotorSim turnSim = new DCMotorSim(null, null, null);
   
