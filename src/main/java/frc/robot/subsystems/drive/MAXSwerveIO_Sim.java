@@ -13,18 +13,30 @@ import edu.wpi.first.math.system.plant.LinearSystemId;
 
 public class MAXSwerveIO_Sim implements MAXSwerveIO {
 
+  private DCMotorSim driveSim = new DCMotorSim(
+    LinearSystemId.createDCMotorSystem(
+      DCMotor.getNEO(1), 
+      0.005, 
+      MAXSwerveConstants.kDriveMotorReduction
+    ),
+    DCMotor.getNEO(1), 
+    0,
+    0
+  );
 
-  // private DCMotorSim driveMotor =
-  //     new DCMotorSim(DCMotor.getNEO(1), MAXSwerveConstants.kDriveMotorReduction, 0.025);
+  private DCMotorSim turnSim = new DCMotorSim(
+    LinearSystemId.createDCMotorSystem(
+      DCMotor.getNeo550(1), 
+      0.0004, 
+      MAXSwerveConstants.kTurnMotorReduction
+    ),
+    DCMotor.getNeo550(1), 
+    0,
+    0
+  );
 
-  // private DCMotorSim turnMotor =
-  //     new DCMotorSim(DCMotor.getNeo550(1), MAXSwerveConstants.kTurnMotorReduction, 0.025);
-
-  private DCMotorSim driveSim = new DCMotorSim(null, null, null);
-  private DCMotorSim turnSim = new DCMotorSim(null, null, null);
-  
-      private final Rotation2d turnAbsoluteInitialPosition =
-      new Rotation2d(Math.random() * 2 * Math.PI);
+  private final Rotation2d turnAbsoluteInitialPosition =
+    new Rotation2d(Math.random() * 2 * Math.PI);
 
   private double driveVolts = 0.0;
   private double turnVolts = 0.0;
@@ -34,8 +46,7 @@ public class MAXSwerveIO_Sim implements MAXSwerveIO {
 
   private PIDController turnController = new PIDController(15, 0.0, 0.0);
   private PIDController driveController = new PIDController(5, 0.0, 0.0);
-  private SimpleMotorFeedforward driveFeedforward =
-      new SimpleMotorFeedforward(0.0, MAXSwerveConstants.kDriveFF * 12);
+  private SimpleMotorFeedforward driveFeedforward = new SimpleMotorFeedforward(0.0, MAXSwerveConstants.kDriveFF * 12);
 
   public MAXSwerveIO_Sim() {
     // Set the range of the turn motor

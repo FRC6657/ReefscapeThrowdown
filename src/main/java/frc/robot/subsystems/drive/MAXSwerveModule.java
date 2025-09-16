@@ -1,22 +1,16 @@
 package frc.robot.subsystems.drive;
 
+import org.littletonrobotics.junction.Logger;
+
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import frc.robot.subsystems.drive.GyroIO.GyroIOInputs;
-import frc.robot.subsystems.drive.MAXSwerveIO.MAXSwerveIOInputs;
-
-import org.littletonrobotics.junction.Logger;
-import org.littletonrobotics.junction.inputs.LoggableInputs;
-import org.littletonrobotics.junction.AutoLogOutput;
 
 public class MAXSwerveModule {
 
   // MAXSwerve IO
   private final MAXSwerveIO io;
-  private final MAXSwerveIOInputs inputs = new MAXSwerveIOInputs();
-  //private final GyroIOInputs inputs = new GyroIOInputs();
-  //private final MAXSwerveIOInputsAutoLogged inputs = new MAXSwerveIOInputsAutoLogged();
+  private final MAXSwerveIOInputsAutoLogged inputs = new MAXSwerveIOInputsAutoLogged();
 
   // Name to identify the module
   public final String name;
@@ -28,7 +22,7 @@ public class MAXSwerveModule {
 
   public void updateInputs() {
     io.updateInputs(inputs);
-    Logger.processInputs("Swerve/" + name + " Module", (LoggableInputs) inputs);
+    Logger.processInputs("Swerve/" + name + " Module", inputs);
   }
 
   /**
@@ -38,7 +32,7 @@ public class MAXSwerveModule {
    * @return The optimized state of the module for reference
    */
   public SwerveModuleState run(SwerveModuleState desiredState) {
-    var optimizedState = SwerveModuleState.optimize(desiredState, inputs.turnPositionRad);
+    SwerveModuleState optimizedState = SwerveModuleState.optimize(desiredState, inputs.turnPositionRad);
     io.setDriveMPS(optimizedState.speedMetersPerSecond);
     io.setTurnAngle(optimizedState.angle);
     return optimizedState;
@@ -47,7 +41,7 @@ public class MAXSwerveModule {
   /** Logs the module IO */
   public void periodic() {
     io.updateInputs(inputs);
-    Logger.processInputs("Swerve/" + name + " Module", (LoggableInputs) inputs);
+    Logger.processInputs("Swerve/" + name + " Module", inputs);
   }
 
   public void stop() {

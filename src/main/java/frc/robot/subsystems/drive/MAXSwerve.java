@@ -22,19 +22,16 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.CodeConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.MAXSwerveConstants;
-import frc.robot.subsystems.drive.GyroIO.GyroIOInputs;
-
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
-import org.littletonrobotics.junction.inputs.LoggableInputs;
 
 public class MAXSwerve extends SubsystemBase {
 
   // Gryo IO
   private final GyroIO gyroIO;
-  private final GyroIOInputs gyroInputs = new GyroIOInputs();
+  private final GyroIOInputsAutoLogged gyroInputs = new GyroIOInputsAutoLogged();
 
   // Swerve Kinematics
   private SwerveDriveKinematics kinematics =
@@ -88,7 +85,7 @@ public class MAXSwerve extends SubsystemBase {
     }
     gyroIO.updateInputs(gyroInputs);
 
-    Logger.processInputs("Gyro", (LoggableInputs) gyroInputs);
+    Logger.processInputs("Gyro", gyroInputs);
 
     var gyroDelta =
         new Rotation2d(
