@@ -1,13 +1,22 @@
 package frc.robot.subsystems.drive;
 
 import com.revrobotics.AbsoluteEncoder;
-import com.revrobotics.CANSparkBase.ControlType;
-import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
-import com.revrobotics.CANSparkMax;
+// import com.revrobotics.CANSparkBase.ControlType;
+// import com.revrobotics.CANSparkLowLevel.MotorType;
+// import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
+// import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkAbsoluteEncoder.Type;
-import com.revrobotics.SparkPIDController;
+import com.revrobotics.spark.SparkBase.ControlType;
+import com.revrobotics.spark.SparkClosedLoopController;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.SparkLowLevel.PeriodicFrame;
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.config.ExternalEncoderConfig.Type;
+import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
+
+// import com.revrobotics.SparkAbsoluteEncoder.Type;
+// import com.revrobotics.SparkPIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.RobotController;
@@ -19,15 +28,18 @@ import org.littletonrobotics.junction.Logger;
 
 public class MAXSwerveIO_Real implements MAXSwerveIO {
 
-  CANSparkMax driveMotor;
-  CANSparkMax turnMotor;
+  SparkMax driveMotor;
+  SparkMax turnMotor;
 
   RelativeEncoder driveEncoder;
   AbsoluteEncoder turnEncoder;
 
   // Onboard PID controller
-  SparkPIDController drivePID;
-  SparkPIDController turnPID;
+  SparkClosedLoopController drivePID;
+  SparkClosedLoopController turnPID;
+
+  public static final SparkMaxConfig driveConfig = new SparkMaxConfig();
+  public static final SparkMaxConfig turnConfig = new SparkMaxConfig();
 
   SimpleMotorFeedforward driveFeedforward =
       new SimpleMotorFeedforward(DriveConstants.kS, DriveConstants.kV, DriveConstants.kA);
@@ -45,20 +57,33 @@ public class MAXSwerveIO_Real implements MAXSwerveIO {
 
     this.moduleInformation = moduleInformation;
 
-    driveMotor = new CANSparkMax(moduleInformation.driveCAN_ID, MotorType.kBrushless);
-    turnMotor = new CANSparkMax(moduleInformation.turnCAN_ID, MotorType.kBrushless);
+    driveMotor = new SparkMax(moduleInformation.driveCAN_ID, MotorType.kBrushless);
+    turnMotor = new SparkMax(moduleInformation.turnCAN_ID, MotorType.kBrushless);
 
-    driveMotor.restoreFactoryDefaults();
-    turnMotor.restoreFactoryDefaults();
+    
+
+    //driveMotor.restoreFactoryDefaults();
+    //turnMotor.restoreFactoryDefaults();
 
     driveEncoder = driveMotor.getEncoder();
-    turnEncoder = turnMotor.getAbsoluteEncoder(Type.kDutyCycle);
+    turnEncoder = turnMotor.getAbsoluteEncoder(); 
+    
+    //Type.kDutyCycle? I think this may outdated
 
-    drivePID = driveMotor.getPIDController();
-    turnPID = turnMotor.getPIDController();
+    drivePID = driveMotor.getClosedLoopController();
+    turnPID = turnMotor.getClosedLoopController();
 
-    drivePID.setFeedbackDevice(driveEncoder);
-    turnPID.setFeedbackDevice(turnEncoder);
+    driveConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder); // relative encoder
+    driveConfig.closedLoop.pid(MAXSwerveConstants.kDriveP, MAXSwerveConstants.kDriveI, MAXSwerveConstants.kDriveD);
+    driveConfig.closedLoop.outputRange(MAXSwerveConstants.kDriveMinOutput, MAXSwerveConstants.kDriveMaxOutput);
+    
+    turnConfig.closedLoop.feedbackSensor(FeedbackSensor.kAbsoluteEncoder); // absolute encoder
+    turnConfig.closedLoop.pid(MAXSwerveConstants.kTurnP, MAXSwerveConstants.kTurnI, MAXSwerveConstants.kTurnD);
+    turnConfig.closedLoop.velocityFF(MAXSwerveConstants.kTurnFF);
+    driveConfig.closedLoop.outputRange(MAXSwerveConstants.kTurnMinOutput, MAXSwerveConstants.kTurnMaxOutput);
+
+    // drivePID.setFeedbackDevice(driveEncoder);
+    // turnPID.setFeedbackDevice(turnEncoder);
 
     driveEncoder.setPositionConversionFactor(MAXSwerveConstants.kDriveEncoderPositionFactor);
     driveEncoder.setVelocityConversionFactor(MAXSwerveConstants.kDriveEncoderVelocityFactor);
@@ -73,16 +98,16 @@ public class MAXSwerveIO_Real implements MAXSwerveIO {
     turnPID.setPositionPIDWrappingMinInput(MAXSwerveConstants.kTurnEncoderPositionPIDMinInput);
     turnPID.setPositionPIDWrappingMaxInput(MAXSwerveConstants.kTurnEncoderPositionPIDMaxInput);
 
-    drivePID.setP(MAXSwerveConstants.kDriveP);
-    drivePID.setI(MAXSwerveConstants.kDriveI);
-    drivePID.setD(MAXSwerveConstants.kDriveD);
-    drivePID.setOutputRange(MAXSwerveConstants.kDriveMinOutput, MAXSwerveConstants.kDriveMaxOutput);
+    // drivePID.setP(MAXSwerveConstants.kDriveP);
+    // drivePID.setI(MAXSwerveConstants.kDriveI);
+    // drivePID.setD(MAXSwerveConstants.kDriveD);
+    // drivePID.setOutputRange(MAXSwerveConstants.kDriveMinOutput, MAXSwerveConstants.kDriveMaxOutput);
 
-    turnPID.setP(MAXSwerveConstants.kTurnP);
-    turnPID.setI(MAXSwerveConstants.kTurnI);
-    turnPID.setD(MAXSwerveConstants.kTurnD);
-    turnPID.setFF(MAXSwerveConstants.kTurnFF);
-    turnPID.setOutputRange(MAXSwerveConstants.kTurnMinOutput, MAXSwerveConstants.kTurnMaxOutput);
+    // turnPID.setP(MAXSwerveConstants.kTurnP);
+    // turnPID.setI(MAXSwerveConstants.kTurnI);
+    // turnPID.setD(MAXSwerveConstants.kTurnD);
+    // turnPID.setFF(MAXSwerveConstants.kTurnFF);
+    // turnPID.setOutputRange(MAXSwerveConstants.kTurnMinOutput, MAXSwerveConstants.kTurnMaxOutput);
 
     driveMotor.setIdleMode(MAXSwerveConstants.kDriveIdleMode);
     turnMotor.setIdleMode(MAXSwerveConstants.kTurnIdleMode);
@@ -95,6 +120,9 @@ public class MAXSwerveIO_Real implements MAXSwerveIO {
     turnMotor.setPeriodicFramePeriod(
         PeriodicFrame.kStatus2, (int) (1000 / CodeConstants.kMainLoopFrequency));
 
+
+    driveMotor.configure(null, null, null);
+    
     driveMotor.burnFlash();
     turnMotor.burnFlash();
   }
