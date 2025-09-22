@@ -4,6 +4,9 @@
 
 package frc.robot.subsystems.ArmExtension;
 
+import org.littletonrobotics.junction.Logger;
+
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ArmExtension extends SubsystemBase {
@@ -19,5 +22,11 @@ public class ArmExtension extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    io.updateInputs(inputs);
+    Logger.processInputs("Arm Extension", inputs);
+  }
+  
+  public Command setVoltage(double volts) {
+    return this.runOnce(() -> io.setVoltage(volts));
   }
 }
