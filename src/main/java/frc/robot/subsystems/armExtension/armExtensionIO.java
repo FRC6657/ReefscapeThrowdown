@@ -1,4 +1,4 @@
-package frc.robot.subsystems.armExtension;
+package frc.robot.subsystems.ArmExtension;
 
 import org.littletonrobotics.junction.AutoLog;
 
