@@ -1,5 +1,5 @@
 package frc.robot.subsystems.armExtension;
 
-public class armExtensionIO_Real {
+public class ArmExtensionIO_Real {
     
 }

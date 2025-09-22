@@ -6,11 +6,15 @@ package frc.robot.subsystems.armExtension;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class armExtension extends SubsystemBase {
-  public final armExtensionIO io;
-  public final armExtensionIOInputsAutoLogged inputs = new armExtensionIOInputsAutoLogged();
-  /** Creates a new armExtension. */
-  public armExtension() {}
+public class ArmExtension extends SubsystemBase {
+
+  public final ArmExtensionIO io;
+  public final ArmExtensionIOInputsAutoLogged inputs = new ArmExtensionIOInputsAutoLogged();
+
+  /** Creates a new ArmExtension. */
+  public ArmExtension(ArmExtensionIO io) {
+    this.io = io;
+  }
 
   @Override
   public void periodic() {

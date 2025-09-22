@@ -2,14 +2,13 @@ package frc.robot.subsystems.armExtension;
 
 import org.littletonrobotics.junction.AutoLog;
 
-public interface armExtensionIO {
+public interface ArmExtensionIO {
     @AutoLog
-    public static class armExtensionIOInputs {
-        public double temp = 0; // in Celcius
+    public static class ArmExtensionIOInputs {
         public double volts = 0;
         public double amps = 0;
     }
     
-    public default void updateInputs(armExtensionIOInputs inputs) {}
+    public default void updateInputs(ArmExtensionIOInputs inputs) {}
     public default void setVoltage(double volts) {}
 }
