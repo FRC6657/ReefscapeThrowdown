@@ -16,10 +16,6 @@ public class ClawWheelsIO_Real implements ClawWheelsIO{
         
     }
 
-    public void changeSetpoint(double setpoint){
-        
-    }
-
 
 }
 
