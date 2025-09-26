@@ -15,7 +15,7 @@ public interface ClawWheelsIO{
 
     public default void updateInputs(ClawWheelsIOInputs inputs){}
 
-    public default void changeVoltage(double voltage){}
+    public default void setVoltage(double voltage){}
 
 }
 

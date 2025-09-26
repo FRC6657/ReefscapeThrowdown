@@ -1,5 +1,6 @@
 package frc.robot;
 
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 //import com.revrobotics.CANSparkBase.IdleMode;
@@ -29,6 +30,9 @@ public class Constants {
     public static final int kBackRightTurn = 8;
 
     public static final int kPigeon = 9;
+
+
+    public static final int kClawWheels = 11;
   }
 
   public static final class AutoConstants {
@@ -206,5 +210,19 @@ public class Constants {
 
     public static final int kDriveCurrentLimit = 40; // amps
     public static final int kTurnCurrentLimit = 20; // amps
+  }
+
+  public static class ClawWheels{
+    public static final double kSupplyLimit = 20;
+    public static final double kStatorLimit = 40;
+
+   public static final CurrentLimitsConfigs currentConfigs =
+        new CurrentLimitsConfigs()
+            .withStatorCurrentLimit(kStatorLimit)
+            .withSupplyCurrentLimit(kSupplyLimit)
+            .withStatorCurrentLimitEnable(true)
+            .withSupplyCurrentLimitEnable(true)
+            .withSupplyCurrentLowerLimit(kSupplyLimit)
+            .withSupplyCurrentLowerTime(0);
   }
 }
