@@ -15,6 +15,22 @@ public class ClawWheels extends SubsystemBase{
         this.io = io;
     }
 
+    public Command changeSetpoint(double setpoint){
+        return this.runOnce( () -> {
+            io.setVoltage(setpoint);
+        });
+    }
+
+    public void setVoltage(double setpoint) {
+        io.setVoltage(setpoint);
+      }
+
+     @Override
+        public void periodic() {
+        io.updateInputs(inputs);
+        Logger.processInputs("ClawWheels", inputs);
+      }
+
 
 
     
