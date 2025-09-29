@@ -9,5 +9,5 @@ public interface ArmExtensionIO {
     }
     
     public default void updateInputs(ArmExtensionIOInputs inputs) {}
-    public default void setVoltage(double volts) {}
+    public default void go(double dutycyc) {}
 }

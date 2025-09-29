@@ -27,7 +27,7 @@ public class ArmExtension extends SubsystemBase {
     Logger.processInputs("Arm Extension", inputs);
   }
   
-  public Command setVoltage(double volts) {
-    return this.runOnce(() -> io.setVoltage(volts));
+  public Command go(double dutycyc) {
+    return this.runOnce(() -> io.go(dutycyc));
   }
 }

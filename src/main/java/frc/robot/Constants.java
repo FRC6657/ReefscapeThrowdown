@@ -12,6 +12,10 @@ import edu.wpi.first.math.util.Units;
 
 public class Constants {
 
+  public static final class ArmConstants {
+    public static final int kArmExtend = 10;
+  }
+
   public static final class CodeConstants {
     public static final double kMainLoopFrequency = 50; // Hz
   }
