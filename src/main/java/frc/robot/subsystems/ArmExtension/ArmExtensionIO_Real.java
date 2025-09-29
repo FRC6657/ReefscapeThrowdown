@@ -12,7 +12,7 @@ public class ArmExtensionIO_Real implements ArmExtensionIO {
         }
 
         @Override
-        public void go(double dutycyc) {
+        public void setSpeed(double dutycyc) {
             motor.set(dutycyc);
         }
 }

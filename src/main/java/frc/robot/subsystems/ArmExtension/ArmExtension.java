@@ -27,7 +27,7 @@ public class ArmExtension extends SubsystemBase {
     Logger.processInputs("Arm Extension", inputs);
   }
   
-  public Command go(double dutycyc) {
-    return this.runOnce(() -> io.go(dutycyc));
+  public Command setSpeed(double dutycyc) {
+    return this.runOnce(() -> io.setSpeed(dutycyc)); // speed from -1 to 1
   }
 }
