@@ -1,8 +1,8 @@
 package frc.robot.subsystems.clawwheels;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.ctre.phoenix6.configs.TalonFXConfigurator;
-import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.controls.VoltageOut;
 
@@ -15,40 +15,29 @@ public class ClawWheelsIO_Real implements ClawWheelsIO{
 
     
     public ClawWheelsIO_Real(){
-        var motorConfigurator = clawMotor.getConfigurator();
-        var motorConfigs = new TalonSRXConfiguration();
 
-        motorConfigs.CurrentLimits = Constants.ClawWheels.currentConfigs;
-        motorConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+       
+        clawMotor.setNeutralMode(NeutralMode.Brake);
 
-        var kTemp = clawMotor.getDeviceTemp();
-        var kCurrent = clawMotor.getSupplyCurrent();
-
-        kTemp.setUpdateFrequency(Constants.CodeConstants.kMainLoopFrequency / 4);
-        kCurrent.setUpdateFrequency(Constants.CodeConstants.kMainLoopFrequency);
-
-        clawMotor.optimizeBusUtilization();
-
-        setVoltage(0);
+        setSpeed(0);
     }
 
 
     @Override
     public void updateInputs(ClawWheelsIOInputs inputs) {
-  
-      inputs.kTemp = clawMotor.getDeviceTemp().getValueAsDouble();  
-      inputs.kCurrent = clawMotor.getSupplyCurrent().getValueAsDouble();
-      inputs.kVoltage = clawMotor.getMotorVoltage().getValueAsDouble();
-  
+    
+      inputs.kCurrent = clawMotor.getSupplyCurrent();
+      inputs.kVoltage = clawMotor.getMotorOutputVoltage();
+    
       inputs.kSetpoint = setpoint;
-      clawMotor.setControl(new VoltageOut(setpoint));
+      clawMotor.set(TalonSRXControlMode.PercentOutput, setpoint); // we can probably get rid of periodic updates, but I doubt it would fill the CAN Bus usage
     }
 
 
     @Override
-    public void setVoltage(double voltage){
-        setpoint = voltage;
-        clawMotor.setControl(new VoltageOut(setpoint));
+    public void setSpeed(double speed){
+        setpoint = speed;
+        clawMotor.set(TalonSRXControlMode.PercentOutput, setpoint);
     }
 }
 
