@@ -5,5 +5,5 @@ public class ArmExtensionIO_Sim implements ArmExtensionIO{
     public void updateInputs(ArmExtensionIOInputs inputs){}
 
     @Override
-    public void go(double dutycyc){}
+    public void setSpeed(double dutycyc){}
 }
