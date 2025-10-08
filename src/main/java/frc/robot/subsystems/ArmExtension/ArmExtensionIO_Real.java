@@ -8,11 +8,11 @@ public class ArmExtensionIO_Real implements ArmExtensionIO {
 
         @Override
         public void updateInputs(ArmExtensionIOInputs inputs) {
-                motor = new PWMTalonSRX(ArmConstants.kArmExtend);
+           motor = new PWMTalonSRX(ArmConstants.kArmExtend);
         }
 
         @Override
         public void setSpeed(double dutycyc) {
-            motor.set(dutycyc);
+           motor.set(dutycyc);
         }
 }
