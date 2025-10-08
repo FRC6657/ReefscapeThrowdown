@@ -3,7 +3,7 @@ package frc.robot.subsystems.clawwheels;
 import edu.wpi.first.wpilibj2.command.Command;
 import org.littletonrobotics.junction.Logger;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import org.littletonrobotics.junction.AutoLog;
+
 
 public class ClawWheels extends SubsystemBase{
 
@@ -20,9 +20,9 @@ public class ClawWheels extends SubsystemBase{
         });
     }
 
-    public void setspeed(double setpoint) {
-        io.setSpeed(setpoint); // percentage
-      }
+    public double getSpeed() {
+        return inputs.kSetpoint; // percentage
+    }
 
      @Override
         public void periodic() {
