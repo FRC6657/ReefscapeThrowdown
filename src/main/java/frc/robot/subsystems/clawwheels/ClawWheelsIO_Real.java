@@ -3,7 +3,6 @@ package frc.robot.subsystems.clawwheels;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-
 import frc.robot.Constants;
 
 public class ClawWheelsIO_Real implements ClawWheelsIO{
