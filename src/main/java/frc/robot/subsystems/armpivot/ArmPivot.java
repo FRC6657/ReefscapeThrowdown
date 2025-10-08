@@ -6,7 +6,7 @@ import org.littletonrobotics.junction.Logger;
 
 public class ArmPivot extends SubsystemBase {
     
-    private final ArmPivot io;
+    private final ArmPivotIO io;
     private final ArmPivotIOInputsAutoLogged inputs = new ArmPivotIOInputsAutoLogged();
 
     public ArmPivot(ArmPivotIO io) {

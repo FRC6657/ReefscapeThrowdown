@@ -1,5 +1,6 @@
 package frc.robot;
 
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 //import com.revrobotics.CANSparkBase.IdleMode;
@@ -213,14 +214,17 @@ public class Constants {
 
     public static final double gearRatio = (70/10) * (70/20) * (60/15);
 
+    public static final double kSupplyLimit = 20;
+    public static final double kStatorLimit = 40;
+  
     public static final CurrentLimitsConfigs currentConfigs = 
         new CurrentLimitsConfigs()
             .withStatorCurrentLimit(kStatorLimit)
             .withSupplyCurrentLimit(kSupplyLimit)
-            .withStatorCurrentLimitEnable(newStatorCurrentLimitEnable:true)
-            .withSupplyCurrentLimitEnable(newSupplyCurrentLimitEnable:true)
+            .withStatorCurrentLimitEnable(true)
+            .withSupplyCurrentLimitEnable(true)
             .withSupplyCurrentLowerLimit(kSupplyLimit)
-            .withSupplyCurrentLowerTime(newSupplyCurrentLowerTime:0);
+            .withSupplyCurrentLowerTime(0);
 
   }
 }
