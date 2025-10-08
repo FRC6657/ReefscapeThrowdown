@@ -3,9 +3,7 @@ package frc.robot.subsystems.armextension;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
-import edu.wpi.first.wpilibj.motorcontrol.PWMTalonSRX;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
-import edu.wpi.first.wpilibj.simulation.PWMSim;
 import frc.robot.Constants;
 
 public class ArmExtensionIO_Sim implements ArmExtensionIO{
