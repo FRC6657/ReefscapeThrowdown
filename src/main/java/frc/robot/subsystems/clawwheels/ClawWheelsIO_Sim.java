@@ -8,7 +8,7 @@ public class ClawWheelsIO_Sim implements ClawWheelsIO{
     private double clawWheelsVoltage = 0;
 
     private DCMotorSim clawWheelSim = new DCMotorSim(LinearSystemId.createDCMotorSystem(DCMotor.getNEO(1), 0.0001, 1), DCMotor.getNEO(1));
-}
+
 
 
 @Override
@@ -17,3 +17,5 @@ public class ClawWheelsIO_Sim implements ClawWheelsIO{
     inputs.kCurrent = clawWheelSim.getCurrentDrawAmps(); 
     
   }
+
+}
