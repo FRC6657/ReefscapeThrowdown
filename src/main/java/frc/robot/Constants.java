@@ -29,6 +29,7 @@ public class Constants {
     public static final int kBackRightTurn = 8;
 
     public static final int kPigeon = 9;
+    public static final int kPivot = 10;
   }
 
   public static final class AutoConstants {
@@ -206,5 +207,20 @@ public class Constants {
 
     public static final int kDriveCurrentLimit = 40; // amps
     public static final int kTurnCurrentLimit = 20; // amps
+  }
+
+  public static final class ArmPivotConstants{
+
+    public static final double gearRatio = (70/10) * (70/20) * (60/15);
+
+    public static final CurrentLimitsConfigs currentConfigs = 
+        new CurrentLimitsConfigs()
+            .withStatorCurrentLimit(kStatorLimit)
+            .withSupplyCurrentLimit(kSupplyLimit)
+            .withStatorCurrentLimitEnable(newStatorCurrentLimitEnable:true)
+            .withSupplyCurrentLimitEnable(newSupplyCurrentLimitEnable:true)
+            .withSupplyCurrentLowerLimit(kSupplyLimit)
+            .withSupplyCurrentLowerTime(newSupplyCurrentLowerTime:0);
+
   }
 }
