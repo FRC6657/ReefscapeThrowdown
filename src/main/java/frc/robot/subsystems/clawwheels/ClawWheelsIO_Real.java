@@ -3,8 +3,7 @@ package frc.robot.subsystems.clawwheels;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.ctre.phoenix6.signals.NeutralModeValue;
-import com.ctre.phoenix6.controls.VoltageOut;
+
 
 import frc.robot.Constants;
 
