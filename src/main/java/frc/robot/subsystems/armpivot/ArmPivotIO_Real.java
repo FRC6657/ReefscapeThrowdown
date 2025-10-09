@@ -16,7 +16,7 @@ public class ArmPivotIO_Real implements ArmPivotIO {
     TalonFX pivotMotor = new TalonFX(Constants.CANID.kPivot);
 
     // Remember unit circle!!
-    private double kSetpoint = -90; 
+    private double kSetpoint = Constants.ArmPivotConstants.kSetpoint;
 
    public ArmPivotIO_Real() {
 
