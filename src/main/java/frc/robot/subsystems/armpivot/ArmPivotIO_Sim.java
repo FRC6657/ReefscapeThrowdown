@@ -1,8 +1,11 @@
 package frc.robot.subsystems.armpivot;
 
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 import frc.robot.Constants;
+import frc.robot.subsystems.armpivot.ArmPivotIO.ArmPivotIOInputs;
 
 public class ArmPivotIO_Sim {
     
@@ -22,12 +25,11 @@ public class ArmPivotIO_Sim {
     public void updateInputs(ArmPivotIOInputs inputs){
         armPivotSim.update(1 / Constants.CodeConstants.kMainLoopFrequency);
 
-        inputs.position = armPivotSim.getAngularPositionRotations();
-        inputs.velocity = armPivotSim.getAngularVelocityRPM();
-        inputs.temp = 0;
-        inputs.voltage = voltage;
-        inputs.current = armPivotSim.getCurrentDrawAmps();
-        inputs.setpoint = setpoint; 
+        inputs.kVelocity = armPivotSim.getAngularVelocityRPM();
+        inputs.kTemp = 0;
+        inputs.kVoltage = voltage;
+        inputs.kCurrent = armPivotSim.getCurrentDrawAmps();
+        inputs.kSetpoint = setpoint; 
     }
 
     @Override
