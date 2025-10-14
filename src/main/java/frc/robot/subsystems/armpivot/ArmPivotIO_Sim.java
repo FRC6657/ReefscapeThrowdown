@@ -25,16 +25,16 @@ public class ArmPivotIO_Sim {
     public void updateInputs(ArmPivotIOInputs inputs){
         armPivotSim.update(1 / Constants.CodeConstants.kMainLoopFrequency);
 
-        inputs.kVelocity = armPivotSim.getAngularVelocityRPM();
-        inputs.kTemp = 0;
-        inputs.kVoltage = voltage;
-        inputs.kCurrent = armPivotSim.getCurrentDrawAmps();
-        inputs.kSetpoint = setpoint; 
+        inputs.kvelocity = armPivotSim.getAngularVelocityRPM();
+        inputs.ktemp = 0;
+        inputs.kvoltage = voltage;
+        inputs.kcurrent = armPivotSim.getCurrentDrawAmps();
+        inputs.setpoint = setpoint; 
     }
 
     @Override
-    public void setVoltage(double volts) {
-        voltage = MathUtil.clamp(volts, -12, 12);
+    public void changeSetpoint(double setpoint) {
+        voltage = MathUtil.clamp(setpoint, -12, 12);
         armPivotSim.setInput(voltage);
     }
 

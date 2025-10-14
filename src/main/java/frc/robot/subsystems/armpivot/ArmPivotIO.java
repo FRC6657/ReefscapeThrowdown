@@ -15,9 +15,5 @@ public interface ArmPivotIO {
 
     public default void updateInputs(ArmPivotIOInputs inputs) {}
 
-    public default boolean getBeamBroken(){
-        return true;
-    }
-
     public default void changeSetpoint(double setpoint) {}
 } 
