@@ -5,9 +5,11 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 import frc.robot.Constants;
+import frc.robot.subsystems.armpivot.ArmPivotIO;
 import frc.robot.subsystems.armpivot.ArmPivotIO.ArmPivotIOInputs;
+import frc.robot.subsystems.drive.MAXSwerveIO;
 
-public class ArmPivotIO_Sim {
+public class ArmPivotIO_Sim implements ArmPivotIO{
     
     private double voltage = 0;
 
@@ -25,11 +27,11 @@ public class ArmPivotIO_Sim {
     public void updateInputs(ArmPivotIOInputs inputs){
         armPivotSim.update(1 / Constants.CodeConstants.kMainLoopFrequency);
 
-        inputs.kvelocity = armPivotSim.getAngularVelocityRPM();
-        inputs.ktemp = 0;
-        inputs.kvoltage = voltage;
-        inputs.kcurrent = armPivotSim.getCurrentDrawAmps();
-        inputs.setpoint = setpoint; 
+        inputs.kVelocity = armPivotSim.getAngularVelocityRPM();
+        inputs.kTemp = 0;
+        inputs.kVoltage = voltage;
+        inputs.kCurrent = armPivotSim.getCurrentDrawAmps();
+        inputs.kSetpoint = setpoint; 
     }
 
     @Override
