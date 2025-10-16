@@ -5,9 +5,7 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 import frc.robot.Constants;
-import frc.robot.subsystems.armpivot.ArmPivotIO;
-import frc.robot.subsystems.armpivot.ArmPivotIO.ArmPivotIOInputs;
-import frc.robot.subsystems.drive.MAXSwerveIO;
+
 
 public class ArmPivotIO_Sim implements ArmPivotIO{
     
