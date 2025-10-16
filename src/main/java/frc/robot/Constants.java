@@ -232,12 +232,11 @@ public class Constants {
     public static Slot0Configs motorSlot0 =
         new Slot0Configs()
             .withKS(0) // Volts
-            .withKG(0.35) // Volts
+            .withKG(0.0) // Volts
             .withGravityType(GravityTypeValue.Elevator_Static)
-            .withKP(9.5)
+            .withKP(1.0)
             .withKI(0)
             .withKD(0);
-
             public static double kMaxVelocity = 50; // TODO tune
             public static double kMaxAcceleration = 50;
           
