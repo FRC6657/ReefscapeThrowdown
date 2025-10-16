@@ -1,6 +1,9 @@
 package frc.robot;
 
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
+import com.ctre.phoenix6.configs.MotionMagicConfigs;
+import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 //import com.revrobotics.CANSparkBase.IdleMode;
@@ -226,5 +229,26 @@ public class Constants {
             .withSupplyCurrentLowerLimit(kSupplyLimit)
             .withSupplyCurrentLowerTime(0);
 
+    public static Slot0Configs motorSlot0 =
+        new Slot0Configs()
+            .withKS(0) // Volts
+            .withKG(0.35) // Volts
+            .withGravityType(GravityTypeValue.Elevator_Static)
+            .withKP(9.5)
+            .withKI(0)
+            .withKD(0);
+
+            public static double kMaxVelocity = 50; // TODO tune
+            public static double kMaxAcceleration = 50;
+          
+          
+          
+      public static MotionMagicConfigs kMotionMagicConfig =
+        new MotionMagicConfigs()
+          .withMotionMagicCruiseVelocity(kMaxVelocity)
+          .withMotionMagicAcceleration(kMaxAcceleration);
   }
+
+  
+  
 }

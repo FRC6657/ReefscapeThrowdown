@@ -1,6 +1,7 @@
 package frc.robot.subsystems.armpivot;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
@@ -10,6 +11,7 @@ public class ArmPivotIO_Real implements ArmPivotIO {
 
     // Pivot Motor Controller
     TalonFX pivotMotor = new TalonFX(Constants.CANID.kPivot);
+    private MotionMagicVoltage motionMagicVoltage = new MotionMagicVoltage(0);
 
     // Remember unit circle!!
     private double kSetpoint = Constants.ArmPivotConstants.kSetpoint;
@@ -21,6 +23,9 @@ public class ArmPivotIO_Real implements ArmPivotIO {
     motorConfigs.Feedback.SensorToMechanismRatio = 
        1.0 / Constants.ArmPivotConstants.gearRatio;
     motorConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake; 
+    motorConfigs.Slot0 = Constants.ArmPivotConstants.motorSlot0;
+    motorConfigs.CurrentLimits = Constants.ArmPivotConstants.currentConfigs;
+    motorConfigs.MotionMagic = Constants.ArmPivotConstants.kMotionMagicConfig;
     motorConfigurator.apply(motorConfigs);
 
     var kTemp = pivotMotor.getDeviceTemp();
@@ -46,13 +51,12 @@ public class ArmPivotIO_Real implements ArmPivotIO {
 
     inputs.kSetpoint = kSetpoint;
 
-    pivotMotor.setControl(new VoltageOut(kSetpoint * 12));
+    pivotMotor.setControl(motionMagicVoltage.withPosition(kSetpoint));
    }
 
    @Override
    public void changeSetpoint(double setpoint) {
     kSetpoint = setpoint;
-    pivotMotor.setControl(new VoltageOut(kSetpoint * 12));
    }
     
 }
