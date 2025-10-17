@@ -2,6 +2,8 @@ package frc.robot.subsystems.armpivot;
 
 import org.littletonrobotics.junction.AutoLog;
 
+import frc.robot.Constants;
+
 public interface ArmPivotIO {
 
     @AutoLog 
@@ -11,6 +13,7 @@ public interface ArmPivotIO {
         public double kTemp = 0.0;
         public double kVoltage = 0.0;
         public double kCurrent = 0.0;
+        public double kPosition = Constants.ArmPivotConstants.kInitialSetpoint;
     }
 
     public default void updateInputs(ArmPivotIOInputs inputs) {}

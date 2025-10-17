@@ -13,7 +13,7 @@ public class ArmPivotIO_Real implements ArmPivotIO {
     private MotionMagicVoltage motionMagicVoltage = new MotionMagicVoltage(0);
 
     // Remember unit circle!!
-    private double kSetpoint = Constants.ArmPivotConstants.kSetpoint;
+    private double kSetpoint = Constants.ArmPivotConstants.kInitialSetpoint;
 
    public ArmPivotIO_Real() {
 
@@ -37,7 +37,7 @@ public class ArmPivotIO_Real implements ArmPivotIO {
     
     pivotMotor.optimizeBusUtilization();
 
-    changeSetpoint(0);
+    changeSetpoint(Constants.ArmPivotConstants.kInitialSetpoint);
    }
 
    @Override
@@ -46,7 +46,7 @@ public class ArmPivotIO_Real implements ArmPivotIO {
     inputs.kTemp = pivotMotor.getDeviceTemp().getValueAsDouble();
     inputs.kCurrent = pivotMotor.getSupplyCurrent().getValueAsDouble();
     inputs.kVoltage = pivotMotor.getMotorVoltage().getValueAsDouble();
-
+    inputs.kPosition = pivotMotor.getPosition().getValueAsDouble();
     inputs.kSetpoint = kSetpoint;
 
     pivotMotor.setControl(motionMagicVoltage.withPosition(kSetpoint));

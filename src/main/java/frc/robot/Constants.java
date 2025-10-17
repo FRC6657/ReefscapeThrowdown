@@ -231,7 +231,7 @@ public class Constants {
   public static final class ArmPivotConstants{
 
     public static final double gearRatio = (70/10) * (70/20) * (60/15);
-    public static final double kSetpoint = -90;
+    public static final double kInitialSetpoint = -90;
     public static final double kSupplyLimit = 20;
     public static final double kStatorLimit = 40;
   
@@ -265,4 +265,3 @@ public class Constants {
     
   }
 
-  

@@ -11,7 +11,7 @@ public class ArmPivotIO_Sim implements ArmPivotIO{
     
     private double voltage = 0;
 
-    private double setpoint = Constants.ArmPivotConstants.kSetpoint;
+    private double setpoint = Constants.ArmPivotConstants.kInitialSetpoint;
 
     private DCMotorSim armPivotSim = new DCMotorSim(
         LinearSystemId.createDCMotorSystem(
