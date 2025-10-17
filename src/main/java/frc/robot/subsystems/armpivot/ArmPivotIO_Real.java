@@ -2,7 +2,6 @@ package frc.robot.subsystems.armpivot;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
-import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import frc.robot.Constants;
@@ -39,7 +38,6 @@ public class ArmPivotIO_Real implements ArmPivotIO {
     pivotMotor.optimizeBusUtilization();
 
     changeSetpoint(0);
-
    }
 
    @Override
