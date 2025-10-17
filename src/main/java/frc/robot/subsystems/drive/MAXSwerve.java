@@ -66,11 +66,11 @@ public class MAXSwerve extends SubsystemBase {
           new MAXSwerveModule(
               MAXSwerveIOs[i], DriveConstants.kIndexedSwerveModuleInformation[i].name + " Module");
     }
-
+    
     // Create the pose estimator
     poseEstimator =
         new SwerveDrivePoseEstimator(
-            kinematics, gyroInputs.yawPosition, getModulePositions(), new Pose2d());
+            kinematics, new Rotation2d(gyroInputs.yawPosition), getModulePositions(), new Pose2d());
   }
 
   /** This code runs at 50hz and is responsible for updating the IO and pose estimator */
@@ -96,7 +96,7 @@ public class MAXSwerve extends SubsystemBase {
     lastHeading = lastHeading.plus(gyroDelta);
 
     if (gyroInputs.connected) {
-      poseEstimator.update(gyroInputs.yawPosition, getModulePositions());
+      poseEstimator.update(new Rotation2d(gyroInputs.yawPosition), getModulePositions());
     } else {
       poseEstimator.update(lastHeading, getModulePositions());
     }
@@ -228,7 +228,7 @@ public class MAXSwerve extends SubsystemBase {
   public void setPose(Pose2d pose) {
     System.out.println("resetting pose");
     if (RobotBase.isReal()) {
-      poseEstimator.resetPosition(gyroInputs.yawPosition, getModulePositions(), pose);
+      poseEstimator.resetPosition(new Rotation2d(gyroInputs.yawPosition), getModulePositions(), pose);
     } else {
       poseEstimator.resetPosition(pose.getRotation(), getModulePositions(), pose);
     }
