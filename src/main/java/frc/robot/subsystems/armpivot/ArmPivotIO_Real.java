@@ -1,0 +1,60 @@
+package frc.robot.subsystems.armpivot;
+
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.MotionMagicVoltage;
+import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
+import frc.robot.Constants;
+
+public class ArmPivotIO_Real implements ArmPivotIO {
+
+    // Pivot Motor Controller
+    TalonFX pivotMotor = new TalonFX(Constants.CANID.kPivot);
+    private MotionMagicVoltage motionMagicVoltage = new MotionMagicVoltage(0);
+
+    // Remember unit circle!!
+    private double kSetpoint = Constants.ArmPivotConstants.kSetpoint;
+
+   public ArmPivotIO_Real() {
+
+    var motorConfigurator = pivotMotor.getConfigurator();
+    var motorConfigs = new TalonFXConfiguration();
+    motorConfigs.Feedback.SensorToMechanismRatio = 
+       1.0 / Constants.ArmPivotConstants.gearRatio;
+    motorConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake; 
+    motorConfigs.Slot0 = Constants.ArmPivotConstants.motorSlot0;
+    motorConfigs.CurrentLimits = Constants.ArmPivotConstants.currentConfigs;
+    motorConfigs.MotionMagic = Constants.ArmPivotConstants.kMotionMagicConfig;
+    motorConfigurator.apply(motorConfigs);
+
+    var kTemp = pivotMotor.getDeviceTemp();
+    var kVoltage = pivotMotor.getMotorVoltage();
+    var kCurrent = pivotMotor.getSupplyCurrent();
+
+    kTemp.setUpdateFrequency(Constants.CodeConstants.kMainLoopFrequency /4);
+    kVoltage.setUpdateFrequency(Constants.CodeConstants.kMainLoopFrequency);
+    kCurrent.setUpdateFrequency(Constants.CodeConstants.kMainLoopFrequency);
+    
+    pivotMotor.optimizeBusUtilization();
+
+    changeSetpoint(0);
+   }
+
+   @Override
+   public void updateInputs(ArmPivotIOInputs inputs) {
+
+    inputs.kTemp = pivotMotor.getDeviceTemp().getValueAsDouble();
+    inputs.kCurrent = pivotMotor.getSupplyCurrent().getValueAsDouble();
+    inputs.kVoltage = pivotMotor.getMotorVoltage().getValueAsDouble();
+
+    inputs.kSetpoint = kSetpoint;
+
+    pivotMotor.setControl(motionMagicVoltage.withPosition(kSetpoint));
+   }
+
+   @Override
+   public void changeSetpoint(double setpoint) {
+    kSetpoint = setpoint;
+   }
+    
+}
