@@ -2,11 +2,9 @@ package frc.robot.subsystems.drive;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.Matrix;
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
@@ -22,7 +20,6 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.CodeConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.MAXSwerveConstants;
-import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
@@ -280,78 +277,4 @@ public class MAXSwerve extends SubsystemBase {
     return this.run(() -> {}).until(() -> chasePose(targetPose));
   }
 
-  public Command goToShotPoint() {
-    return this.run(() -> {}).until(() -> chasePose(getNearestShotPoint()));
-  }
-
-  public Command goToAmpPose() {
-    return this.run(() -> {})
-        .until(
-            () ->
-                chasePose(new Pose2d(isRed() ? 14.65 : 1.9, 7.771, new Rotation2d(-Math.PI / 2))));
-  }
-
-  public Pose2d getNearestShotPoint() {
-    Translation2d speakerCenter =
-        (isRed()) ? new Translation2d(16.3, 5.549) : new Translation2d(0, 5.549);
-    double shotDistance = 1.7; // meters
-    double xLimit = isRed() ? 15.300000 : 1.216700;
-
-    double vX = getPose().getX() - speakerCenter.getX();
-    double vY = getPose().getY() - speakerCenter.getY();
-    double magV = Math.sqrt(vX * vX + vY * vY);
-    double aX = speakerCenter.getX() + vX / magV * shotDistance;
-    double aY = speakerCenter.getY() + vY / magV * shotDistance;
-
-    double m = (aY - getPose().getY()) / (aX - getPose().getX());
-    double angle = Math.atan(m);
-
-    Pose2d desiredPos =
-        new Pose2d(aX, aY, new Rotation2d(angle).plus(new Rotation2d(isRed() ? Math.PI : 0)));
-
-    boolean side = desiredPos.getY() > 5.549;
-    double newY = 5.549 + (side ? 1.581139 : -1.581139);
-
-    if (isRed()) {
-      if (desiredPos.getX() > xLimit) {
-        double newR = side ? 2.179042 : -2.179042;
-        desiredPos = new Pose2d(xLimit, newY, new Rotation2d(newR));
-      }
-    } else {
-      if (desiredPos.getX() < xLimit) {
-        double newR = side ? 0.962551 : -0.962551;
-        desiredPos = new Pose2d(xLimit, newY, new Rotation2d(newR));
-      }
-    }
-
-    return desiredPos;
-  }
-
-  @SuppressWarnings("resource")
-  public Command noteAim(
-      DoubleSupplier xSpeed, DoubleSupplier ySpeed, DoubleSupplier rSpeed, DoubleSupplier noteX) {
-
-    var thetaController = new PIDController(AutoConstants.kNA_P, 0, 0);
-
-    return this.run(
-            () -> {
-              var xSpeedVal = -MathUtil.applyDeadband(xSpeed.getAsDouble(), 0.05) * 2;
-              var ySpeedVal = -MathUtil.applyDeadband(ySpeed.getAsDouble(), 0.05) * 2;
-              var rSpeedVal = -MathUtil.applyDeadband(rSpeed.getAsDouble(), 0.05) * 1.5;
-              var noteXVal = noteX.getAsDouble();
-
-              ChassisSpeeds speeds =
-                  ChassisSpeeds.fromFieldRelativeSpeeds(
-                      new ChassisSpeeds(xSpeedVal, ySpeedVal, rSpeedVal),
-                      getPose().getRotation().plus(new Rotation2d(isRed() ? Math.PI : 0)));
-
-              if (noteXVal != 0) {
-                rSpeedVal = MathUtil.clamp(thetaController.calculate(noteXVal, 0), -2, 2);
-                speeds = new ChassisSpeeds(xSpeedVal, ySpeedVal, rSpeedVal);
-              }
-
-              this.runChassisSpeeds(speeds);
-            })
-        .beforeStarting(() -> thetaController.reset());
-  }
 }

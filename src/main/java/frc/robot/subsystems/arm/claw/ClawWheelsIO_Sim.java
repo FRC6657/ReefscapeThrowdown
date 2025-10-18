@@ -1,6 +1,4 @@
-package frc.robot.subsystems.clawwheels;
-
-import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
+package frc.robot.subsystems.arm.claw;
 
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;

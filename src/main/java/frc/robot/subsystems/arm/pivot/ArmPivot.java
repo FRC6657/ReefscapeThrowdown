@@ -1,7 +1,8 @@
-package frc.robot.subsystems.armpivot;
+package frc.robot.subsystems.arm.pivot;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
 import org.littletonrobotics.junction.Logger;
 
 public class ArmPivot extends SubsystemBase {

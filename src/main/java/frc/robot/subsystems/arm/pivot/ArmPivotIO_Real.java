@@ -1,4 +1,4 @@
-package frc.robot.subsystems.armpivot;
+package frc.robot.subsystems.arm.pivot;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
@@ -13,19 +13,21 @@ public class ArmPivotIO_Real implements ArmPivotIO {
     private MotionMagicVoltage motionMagicVoltage = new MotionMagicVoltage(0);
 
     // Remember unit circle!!
-    private double kSetpoint = Constants.ArmPivotConstants.kInitialSetpoint;
+    private double kSetpoint = Constants.ArmPivotConstants.kInitialSetpoint; //TODO: k is usually a prefix for constants. Change name.
 
    public ArmPivotIO_Real() {
 
     var motorConfigurator = pivotMotor.getConfigurator();
     var motorConfigs = new TalonFXConfiguration();
-    motorConfigs.Feedback.SensorToMechanismRatio = 
+    motorConfigs.Feedback.SensorToMechanismRatio = //TODO: Remove 1/. Reductions should be > 1
        1.0 / Constants.ArmPivotConstants.gearRatio;
     motorConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake; 
     motorConfigs.Slot0 = Constants.ArmPivotConstants.motorSlot0;
     motorConfigs.CurrentLimits = Constants.ArmPivotConstants.currentConfigs;
     motorConfigs.MotionMagic = Constants.ArmPivotConstants.kMotionMagicConfig;
     motorConfigurator.apply(motorConfigs);
+
+    //TODO: set position update frequency
 
     var kTemp = pivotMotor.getDeviceTemp();
     var kVoltage = pivotMotor.getMotorVoltage();
@@ -34,10 +36,10 @@ public class ArmPivotIO_Real implements ArmPivotIO {
     kTemp.setUpdateFrequency(Constants.CodeConstants.kMainLoopFrequency /4);
     kVoltage.setUpdateFrequency(Constants.CodeConstants.kMainLoopFrequency);
     kCurrent.setUpdateFrequency(Constants.CodeConstants.kMainLoopFrequency);
-    
+   
     pivotMotor.optimizeBusUtilization();
 
-    changeSetpoint(Constants.ArmPivotConstants.kInitialSetpoint);
+    changeSetpoint(Constants.ArmPivotConstants.kInitialSetpoint); //TODO: This is is the same as the stow setpoint.
    }
 
    @Override

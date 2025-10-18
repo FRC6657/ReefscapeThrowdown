@@ -49,8 +49,8 @@ public class Constants {
     public static final double kAA_P_Y = 3.8;
     public static final double kAA_P_Theta = 8;
 
-    public static final double kAA_T_Clamp = 3; // m/s
-    public static final double kAA_R_Clamp = 2 * Math.PI; // rad/s
+    public static final double kAA_T_Clamp = 1; // m/s
+    public static final double kAA_R_Clamp = Math.PI/4; // rad/s
 
     public static final double kAA_T_Tolerance = Units.inchesToMeters(2); // m
     public static final double kAA_R_Tolerance = Units.degreesToRadians(2); // rad
@@ -211,7 +211,7 @@ public class Constants {
     public static final IdleMode kTurnIdleMode = IdleMode.kBrake;
 
     public static final int kDriveCurrentLimit = 40; // amps
-    public static final int kTurnCurrentLimit = 20; // amps
+    public static final int kTurnCurrentLimit = 15; // amps
   }
 
   public static class ClawWheels{
@@ -253,7 +253,7 @@ public class Constants {
             .withKP(1.0)
             .withKI(0)
             .withKD(0);
-            public static double kMaxVelocity = 50; // TODO tune
+            public static double kMaxVelocity = 50;
             public static double kMaxAcceleration = 50;
       
       public static MotionMagicConfigs kMotionMagicConfig =
