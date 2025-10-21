@@ -32,10 +32,10 @@ public class MAXSwerveModule {
    * @return The optimized state of the module for reference
    */
   public SwerveModuleState run(SwerveModuleState desiredState) {
-    desiredState.optimize(inputs.turnPositionRad);
-    io.setDriveMPS(desiredState.speedMetersPerSecond);
-    io.setTurnAngle(desiredState.angle);
-    return desiredState;
+    SwerveModuleState optimizedState = SwerveModuleState.optimize(desiredState, inputs.turnPositionRad);
+    io.setDriveMPS(optimizedState.speedMetersPerSecond);
+    io.setTurnAngle(optimizedState.angle);
+    return optimizedState;
   }
 
   /** Logs the module IO */
