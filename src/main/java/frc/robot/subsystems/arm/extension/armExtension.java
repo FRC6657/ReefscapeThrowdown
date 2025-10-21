@@ -2,20 +2,20 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.subsystems.armextension;
+package frc.robot.subsystems.arm.extension;
 
 import org.littletonrobotics.junction.Logger;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 
-public class ArmExtension extends SubsystemBase {
+public class armExtension extends SubsystemBase {
 
-  public final ArmExtensionIO io;
-  public final ArmExtensionIOInputsAutoLogged inputs = new ArmExtensionIOInputsAutoLogged();
+  public final armExtensionIO io;
+  public final armExtensionIOInputsAutoLogged inputs = new armExtensionIOInputsAutoLogged();
 
-  /** Creates a new ArmExtension. */
-  public ArmExtension(ArmExtensionIO io) {
+  /** Creates a new armExtension. */
+  public armExtension(armExtensionIO io) {
     this.io = io;
   }
 
