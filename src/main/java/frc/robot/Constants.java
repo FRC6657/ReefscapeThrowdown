@@ -1,5 +1,9 @@
 package frc.robot;
 
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
+import com.ctre.phoenix6.configs.MotionMagicConfigs;
+import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 //import com.revrobotics.CANSparkBase.IdleMode;
@@ -33,6 +37,8 @@ public class Constants {
     public static final int kBackRightTurn = 8;
 
     public static final int kPigeon = 9;
+    public static final int kClawWheels = 11;
+    public static final int kPivot = 10;
   }
 
   public static final class AutoConstants {
@@ -47,8 +53,8 @@ public class Constants {
     public static final double kAA_P_Y = 3.8;
     public static final double kAA_P_Theta = 8;
 
-    public static final double kAA_T_Clamp = 3; // m/s
-    public static final double kAA_R_Clamp = 2 * Math.PI; // rad/s
+    public static final double kAA_T_Clamp = 1; // m/s
+    public static final double kAA_R_Clamp = Math.PI/4; // rad/s
 
     public static final double kAA_T_Tolerance = Units.inchesToMeters(2); // m
     public static final double kAA_R_Tolerance = Units.degreesToRadians(2); // rad
@@ -209,6 +215,57 @@ public class Constants {
     public static final IdleMode kTurnIdleMode = IdleMode.kBrake;
 
     public static final int kDriveCurrentLimit = 40; // amps
-    public static final int kTurnCurrentLimit = 20; // amps
+    public static final int kTurnCurrentLimit = 15; // amps
   }
-}
+
+  public static class ClawWheels{
+    public static final double kSupplyLimit = 20;
+    public static final double kStatorLimit = 40;
+
+   public static final CurrentLimitsConfigs currentConfigs =
+    new CurrentLimitsConfigs()
+      .withStatorCurrentLimit(kStatorLimit)
+      .withSupplyCurrentLimit(kSupplyLimit)
+      .withStatorCurrentLimitEnable(true)
+      .withSupplyCurrentLimitEnable(true)
+      .withSupplyCurrentLowerLimit(kSupplyLimit)
+      .withSupplyCurrentLowerTime(0);
+  }
+
+  public static final class ArmPivotConstants{
+
+    public static final double gearRatio = (70/10) * (70/20) * (60/15);
+    public static final double kInitialSetpoint = -90;
+    public static final double kSupplyLimit = 20;
+    public static final double kStatorLimit = 40;
+  
+    public static final CurrentLimitsConfigs currentConfigs = 
+        new CurrentLimitsConfigs()
+            .withStatorCurrentLimit(kStatorLimit)
+            .withSupplyCurrentLimit(kSupplyLimit)
+            .withStatorCurrentLimitEnable(true)
+            .withSupplyCurrentLimitEnable(true)
+            .withSupplyCurrentLowerLimit(kSupplyLimit)
+            .withSupplyCurrentLowerTime(0);
+
+
+    public static Slot0Configs motorSlot0 =
+        new Slot0Configs()
+            .withKS(0) // Volts
+            .withKG(0.0) // Volts
+            .withGravityType(GravityTypeValue.Elevator_Static)
+            .withKP(1.0)
+            .withKI(0)
+            .withKD(0);
+            public static double kMaxVelocity = 50;
+            public static double kMaxAcceleration = 50;
+      
+      public static MotionMagicConfigs kMotionMagicConfig =
+        new MotionMagicConfigs()
+          .withMotionMagicCruiseVelocity(kMaxVelocity)
+          .withMotionMagicAcceleration(kMaxAcceleration);
+    }
+
+    
+  }
+
