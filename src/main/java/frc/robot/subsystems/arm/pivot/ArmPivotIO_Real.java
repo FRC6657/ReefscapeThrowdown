@@ -10,7 +10,7 @@ public class ArmPivotIO_Real implements ArmPivotIO {
 
     // Pivot Motor Controller
     TalonFX pivotMotor = new TalonFX(Constants.CANID.kPivot);
-    private MotionMagicVoltage motionMagicVoltage = new MotionMagicVoltage(0);
+    private MotionMagicVoltage motionMagicVoltage = new MotionMagicVoltage(0); //TODO: fix this default setpoint
 
     // Remember unit circle!!
     private double kSetpoint = Constants.ArmPivotConstants.kInitialSetpoint; //TODO: k is usually a prefix for constants. Change name.
@@ -39,7 +39,7 @@ public class ArmPivotIO_Real implements ArmPivotIO {
    
     pivotMotor.optimizeBusUtilization();
 
-    changeSetpoint(Constants.ArmPivotConstants.kInitialSetpoint); //TODO: This is is the same as the stow setpoint.
+    changeSetpoint(Constants.ArmPivotConstants.kInitialSetpoint); //TODO: This is is the same as the home setpoint.
    }
 
    @Override
@@ -48,15 +48,16 @@ public class ArmPivotIO_Real implements ArmPivotIO {
     inputs.kTemp = pivotMotor.getDeviceTemp().getValueAsDouble();
     inputs.kCurrent = pivotMotor.getSupplyCurrent().getValueAsDouble();
     inputs.kVoltage = pivotMotor.getMotorVoltage().getValueAsDouble();
-    inputs.kPosition = pivotMotor.getPosition().getValueAsDouble();
+    inputs.kPosition = pivotMotor.getPosition().getValueAsDouble(); //TODO: Log degrees instead of mechanism rotations
     inputs.kSetpoint = kSetpoint;
+    //TODO: Log velocity and acceleration in deg/s and deg/s/s
 
-    pivotMotor.setControl(motionMagicVoltage.withPosition(kSetpoint));
+    pivotMotor.setControl(motionMagicVoltage.withPosition(kSetpoint)); //TODO convert setpoint back to mechanism rotations
    }
 
    @Override
    public void changeSetpoint(double setpoint) {
-    kSetpoint = setpoint;
+    kSetpoint = setpoint; //TODO: needs clamping
    }
     
 }
