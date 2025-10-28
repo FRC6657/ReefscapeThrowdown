@@ -8,13 +8,13 @@ public interface ArmPivotIO {
 
     @AutoLog 
     public static class ArmPivotIOInputs {
-        //TODO: k is usually a prefix for constants. Change name.
         public double kSetpoint = 0.0;
         public double kVelocity = 0.0;
+        public double kAcceleration = 0.0;
         public double kTemp = 0.0;
         public double kVoltage = 0.0;
         public double kCurrent = 0.0;
-        public double kPosition = Constants.ArmPivotConstants.kInitialSetpoint;
+        public double kPosition = Constants.ArmPivotConstants.initialSetpoint;
     }
 
     public default void updateInputs(ArmPivotIOInputs inputs) {}
