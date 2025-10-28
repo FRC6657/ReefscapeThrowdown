@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.littletonrobotics.junction.Logger;
 
 public class ArmPivot extends SubsystemBase {
-    
+
     private final ArmPivotIO io;
     private final ArmPivotIOInputsAutoLogged inputs = new ArmPivotIOInputsAutoLogged();
 
@@ -16,14 +16,18 @@ public class ArmPivot extends SubsystemBase {
 
     public Command changeSetpoint(double setpoint) {
         return this.runOnce(
-            () -> {
-                io.changeSetpoint(setpoint);
-            }
-        );
+                () -> {
+                    io.changeSetpoint(setpoint);
+                });
     }
 
+    //TODO Needs clamp
     public void setpoint(double setpoint) {
         io.changeSetpoint(setpoint);
+    }
+
+    public double getPosition() {
+        return inputs.kPosition;
     }
 
     @Override

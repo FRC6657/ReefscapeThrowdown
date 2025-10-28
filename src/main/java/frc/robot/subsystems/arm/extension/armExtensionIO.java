@@ -2,7 +2,7 @@ package frc.robot.subsystems.arm.extension;
 
 import org.littletonrobotics.junction.AutoLog;
 
-public interface armExtensionIO {
+public interface ArmExtensionIO {
     @AutoLog
     public static class armExtensionIOInputs {
         public double volts = 0;
