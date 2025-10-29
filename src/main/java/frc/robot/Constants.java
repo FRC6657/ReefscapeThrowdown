@@ -40,6 +40,7 @@ public class Constants {
     public static final int kPigeon = 9;
     public static final int kPivot = 10;
     public static final int kClawWheels = 11;
+    public static final int kClawExtension = 12;
   }
 
   public static final class AutoConstants {
@@ -190,6 +191,7 @@ public class Constants {
 
     public static final double kTurnMotorReduction = 9424d / 203;
 
+    //the following constants are used in the hardware client
     public static final double kTurnEncoderPositionFactor = (2 * Math.PI); // radians
     public static final double kTurnEncoderVelocityFactor =
         (2 * Math.PI) / 60.0; // radians per second

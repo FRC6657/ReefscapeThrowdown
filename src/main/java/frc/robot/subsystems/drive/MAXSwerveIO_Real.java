@@ -72,9 +72,9 @@ public class MAXSwerveIO_Real implements MAXSwerveIO {
     driveConfig.encoder.uvwMeasurementPeriod((int) (1000 / CodeConstants.kMainLoopFrequency));
     driveConfig.encoder.uvwAverageDepth(2);
 
-    turnConfig.encoder.positionConversionFactor(MAXSwerveConstants.kTurnEncoderPositionFactor);
-    turnConfig.encoder.velocityConversionFactor(MAXSwerveConstants.kTurnEncoderVelocityFactor);
-    turnConfig.encoder.inverted(MAXSwerveConstants.kTurnEncoderInverted);
+    // turnConfig.encoder.positionConversionFactor(MAXSwerveConstants.kTurnEncoderPositionFactor);
+    // turnConfig.encoder.velocityConversionFactor(MAXSwerveConstants.kTurnEncoderVelocityFactor);
+    // turnConfig.encoder.inverted(MAXSwerveConstants.kTurnEncoderInverted);
 
     turnConfig.closedLoop.positionWrappingEnabled(true);
     turnConfig.closedLoop.positionWrappingInputRange(MAXSwerveConstants.kTurnEncoderPositionPIDMinInput, MAXSwerveConstants.kTurnEncoderPositionPIDMaxInput);
@@ -89,7 +89,7 @@ public class MAXSwerveIO_Real implements MAXSwerveIO {
     turnConfig.smartCurrentLimit(MAXSwerveConstants.kTurnCurrentLimit);
 
     driveMotor.configure(driveConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-    turnMotor.configure(turnConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    turnMotor.configure(turnConfig, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
 
   }
 
