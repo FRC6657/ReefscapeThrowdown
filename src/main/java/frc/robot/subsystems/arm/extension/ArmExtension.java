@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class ArmExtension extends SubsystemBase {
 
   public final ArmExtensionIO io;
-  public final armExtensionIOInputsAutoLogged inputs = new armExtensionIOInputsAutoLogged();
+  public final ArmExtensionIOInputsAutoLogged inputs = new ArmExtensionIOInputsAutoLogged();
 
   /** Creates a new armExtension. */
   public ArmExtension(ArmExtensionIO io) {
