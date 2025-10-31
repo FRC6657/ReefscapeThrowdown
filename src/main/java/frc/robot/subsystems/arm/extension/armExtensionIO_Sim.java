@@ -6,20 +6,18 @@ import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 import frc.robot.Constants;
 
-public class armExtensionIO_Sim implements armExtensionIO{
+public class ArmExtensionIO_Sim implements ArmExtensionIO {
 
-    private double voltage = 0;
+  private double voltage = 0;
 
   private DCMotorSim armExtensionSim =
       new DCMotorSim(
-          LinearSystemId.createDCMotorSystem(
-              DCMotor.getNEO(1), 0.0001, 1),
-          DCMotor.getNEO(1));
+          LinearSystemId.createDCMotorSystem(DCMotor.getNEO(1), 0.0001, 1), DCMotor.getNEO(1));
 
-  public armExtensionIO_Sim() {}
+  public ArmExtensionIO_Sim() {}
 
   @Override
-  public void updateInputs(armExtensionIOInputs inputs) {
+  public void updateInputs(ArmExtensionIOInputs inputs) {
 
     // update sim
     armExtensionSim.update(1 / Constants.CodeConstants.kMainLoopFrequency);

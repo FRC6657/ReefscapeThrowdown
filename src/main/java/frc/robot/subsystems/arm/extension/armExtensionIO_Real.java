@@ -1,18 +1,19 @@
 package frc.robot.subsystems.arm.extension;
 
-import edu.wpi.first.wpilibj.motorcontrol.PWMTalonSRX;
-import frc.robot.Constants.ArmConstants;
+import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import frc.robot.Constants.*;
 
-public class armExtensionIO_Real implements armExtensionIO {
-        private PWMTalonSRX motor;
+public class ArmExtensionIO_Real implements ArmExtensionIO {
+  private TalonSRX motor;
 
-        @Override
-        public void updateInputs(armExtensionIOInputs inputs) {
-           motor = new PWMTalonSRX(ArmConstants.kArmExtend);
-        }
+  @Override
+  public void updateInputs(ArmExtensionIOInputs inputs) {
+    motor = new TalonSRX(CANID.kClawExtension);
+  }
 
-        @Override
-        public void setSpeed(double dutycyc) {
-           motor.set(dutycyc);
-        }
+  @Override
+  public void setSpeed(double dutycyc) {
+    motor.set(TalonSRXControlMode.PercentOutput, dutycyc);
+  }
 }

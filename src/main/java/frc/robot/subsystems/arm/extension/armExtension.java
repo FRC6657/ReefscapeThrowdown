@@ -4,18 +4,17 @@
 
 package frc.robot.subsystems.arm.extension;
 
-import org.littletonrobotics.junction.Logger;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import org.littletonrobotics.junction.Logger;
 
+public class ArmExtension extends SubsystemBase {
 
-public class armExtension extends SubsystemBase {
-
-  public final armExtensionIO io;
-  public final armExtensionIOInputsAutoLogged inputs = new armExtensionIOInputsAutoLogged();
+  public final ArmExtensionIO io;
+  public final ArmExtensionIOInputsAutoLogged inputs = new ArmExtensionIOInputsAutoLogged();
 
   /** Creates a new armExtension. */
-  public armExtension(armExtensionIO io) {
+  public ArmExtension(ArmExtensionIO io) {
     this.io = io;
   }
 
@@ -25,7 +24,7 @@ public class armExtension extends SubsystemBase {
     io.updateInputs(inputs);
     Logger.processInputs("Arm Extension", inputs);
   }
-  
+
   public Command setSpeed(double dutycyc) {
     return this.runOnce(() -> io.setSpeed(dutycyc)); // speed from -1 to 1
   }

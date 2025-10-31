@@ -1,0 +1,55 @@
+{
+    "name": "Lotus25",
+    "rotations": [
+        {
+            "axis": "z",
+            "degrees": 90
+        },
+        {
+            "axis": "y",
+            "degrees": 90
+        }
+    ],
+    "position": [
+        0,
+        0,
+        0
+    ],
+    "cameras": [],
+    "components": [
+        {
+            "zeroedRotations": [
+                {
+                    "axis": "z",
+                    "degrees": 90
+                },
+                {
+                    "axis": "y",
+                    "degrees": 90
+                }
+            ],
+            "zeroedPosition": [
+                -0.184150,
+                0,
+                -0.822649
+            ]
+        },
+        {
+            "zeroedRotations": [
+                {
+                    "axis": "z",
+                    "degrees": 90
+                },
+                {
+                    "axis": "y",
+                    "degrees": 90
+                }
+            ],
+            "zeroedPosition": [
+                -0.184150,
+                0,
+                -0.822649
+            ]
+        }
+    ]
+}

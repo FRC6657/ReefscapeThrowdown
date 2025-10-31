@@ -63,7 +63,7 @@ public class MAXSwerve extends SubsystemBase {
           new MAXSwerveModule(
               MAXSwerveIOs[i], DriveConstants.kIndexedSwerveModuleInformation[i].name + " Module");
     }
-    
+
     // Create the pose estimator
     poseEstimator =
         new SwerveDrivePoseEstimator(
@@ -225,7 +225,8 @@ public class MAXSwerve extends SubsystemBase {
   public void setPose(Pose2d pose) {
     System.out.println("resetting pose");
     if (RobotBase.isReal()) {
-      poseEstimator.resetPosition(new Rotation2d(gyroInputs.yawPosition), getModulePositions(), pose);
+      poseEstimator.resetPosition(
+          new Rotation2d(gyroInputs.yawPosition), getModulePositions(), pose);
     } else {
       poseEstimator.resetPosition(pose.getRotation(), getModulePositions(), pose);
     }
@@ -276,5 +277,4 @@ public class MAXSwerve extends SubsystemBase {
   public Command goToPose(Pose2d targetPose) {
     return this.run(() -> {}).until(() -> chasePose(targetPose));
   }
-
 }

@@ -1,13 +1,10 @@
 package frc.robot;
 
-
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
-
-//import com.revrobotics.CANSparkBase.IdleMode;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -40,6 +37,7 @@ public class Constants {
     public static final int kPigeon = 9;
     public static final int kPivot = 10;
     public static final int kClawWheels = 11;
+    public static final int kClawExtension = 12;
   }
 
   public static final class AutoConstants {
@@ -55,7 +53,7 @@ public class Constants {
     public static final double kAA_P_Theta = 8;
 
     public static final double kAA_T_Clamp = 1; // m/s
-    public static final double kAA_R_Clamp = Math.PI/4; // rad/s
+    public static final double kAA_R_Clamp = Math.PI / 4; // rad/s
 
     public static final double kAA_T_Tolerance = Units.inchesToMeters(2); // m
     public static final double kAA_R_Tolerance = Units.degreesToRadians(2); // rad
@@ -146,14 +144,15 @@ public class Constants {
   public static final class MAXSwerveConstants {
 
     public static enum DriveRatio {
-      LOW(12,22d),
-      MEDIUM(13,22d),
-      HIGH(14,22d),
-      EH1(14,21d),
-      EH2(14,20d),
-      EH3(15,20d),
-      EH4(16,20d),
-      EH5(16,19d),;
+      LOW(12, 22d),
+      MEDIUM(13, 22d),
+      HIGH(14, 22d),
+      EH1(14, 21d),
+      EH2(14, 20d),
+      EH3(15, 20d),
+      EH4(16, 20d),
+      EH5(16, 19d),
+      ;
 
       public final double ratio;
 
@@ -161,7 +160,6 @@ public class Constants {
         this.ratio = spurTeeth / pinionTeeth;
       }
     }
-
 
     public static final double kDriveMotorRatio = DriveRatio.HIGH.ratio;
 
@@ -190,6 +188,7 @@ public class Constants {
 
     public static final double kTurnMotorReduction = 9424d / 203;
 
+    // the following constants are used in the hardware client
     public static final double kTurnEncoderPositionFactor = (2 * Math.PI); // radians
     public static final double kTurnEncoderVelocityFactor =
         (2 * Math.PI) / 60.0; // radians per second
@@ -218,24 +217,27 @@ public class Constants {
     public static final int kDriveCurrentLimit = 40; // amps
     public static final int kTurnCurrentLimit = 15; // amps
   }
-  public static class ClawWheels{
+
+  public static class ClawWheels {
     public static final double kSupplyLimit = 20;
     public static final double kStatorLimit = 40;
-   public static final CurrentLimitsConfigs currentConfigs =
-    new CurrentLimitsConfigs()
-      .withStatorCurrentLimit(kStatorLimit)
-      .withSupplyCurrentLimit(kSupplyLimit)
-      .withStatorCurrentLimitEnable(true)
-      .withSupplyCurrentLimitEnable(true)
-      .withSupplyCurrentLowerLimit(kSupplyLimit)
-      .withSupplyCurrentLowerTime(0);
+    public static final CurrentLimitsConfigs currentConfigs =
+        new CurrentLimitsConfigs()
+            .withStatorCurrentLimit(kStatorLimit)
+            .withSupplyCurrentLimit(kSupplyLimit)
+            .withStatorCurrentLimitEnable(true)
+            .withSupplyCurrentLimitEnable(true)
+            .withSupplyCurrentLowerLimit(kSupplyLimit)
+            .withSupplyCurrentLowerTime(0);
   }
-  public static final class ArmPivotConstants{
-    public static final double gearRatio = (70/10) * (70/20) * (60/15);
-    public static final double kInitialSetpoint = -90;
+
+  public static final class ArmPivotConstants {
+    public static final double gearRatio = (70 / 10) * (70 / 20) * (60 / 15);
+    public static final double initialSetpoint = -90; // Remember unit circle!!
+    public static final double maxStepoint = 45;
     public static final double kSupplyLimit = 20;
     public static final double kStatorLimit = 40;
-    public static final CurrentLimitsConfigs currentConfigs = 
+    public static final CurrentLimitsConfigs currentConfigs =
         new CurrentLimitsConfigs()
             .withStatorCurrentLimit(kStatorLimit)
             .withSupplyCurrentLimit(kSupplyLimit)
@@ -251,11 +253,11 @@ public class Constants {
             .withKP(1.0)
             .withKI(0)
             .withKD(0);
-            public static double kMaxVelocity = 50;
-            public static double kMaxAcceleration = 50;
-      public static MotionMagicConfigs kMotionMagicConfig =
+    public static double kMaxVelocity = 50;
+    public static double kMaxAcceleration = 50;
+    public static MotionMagicConfigs kMotionMagicConfig =
         new MotionMagicConfigs()
-          .withMotionMagicCruiseVelocity(kMaxVelocity)
-          .withMotionMagicAcceleration(kMaxAcceleration);
+            .withMotionMagicCruiseVelocity(kMaxVelocity)
+            .withMotionMagicAcceleration(kMaxAcceleration);
   }
 }
