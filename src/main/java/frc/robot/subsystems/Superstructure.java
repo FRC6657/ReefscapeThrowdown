@@ -68,13 +68,31 @@ public class Superstructure {
     };
   }
 
-  public Command Ready() {
+  public Command extendClaw(){
     return Commands.sequence(
-        armext.setSpeed(0.1),
+        armext.setSpeed(0.2),
+        Commands.waitSeconds(0.5),
+        armext.setSpeed(0),
+        Commands.runOnce(() -> {extentionState = "extended";})
+    );
+  }
+
+  public Command retractClaw(){
+    return Commands.sequence(
+        armext.setSpeed(-0.2),
+        Commands.waitSeconds(0.5),
+        armext.setSpeed(0),
+        Commands.runOnce(() -> {extentionState = "retracted";})
+    );
+  }
+
+  public Command ready() {
+    return Commands.sequence(
         claw.changeSetpoint(-0.3),
-        Commands.waitSeconds(0.2),
-        armext.setSpeed(-0.1),
-        claw.changeSetpoint(-0.2));
+        extendClaw(),
+        claw.changeSetpoint(0),
+        retractClaw()
+    );
   }
 
   public Command selectPivotHeight(int height) {
@@ -88,7 +106,7 @@ public class Superstructure {
         .changeSetpoint(() -> pivotSetpoints[pivotLevel])
         .andThen(
             logMessage(
-                "Elevator Setpoint Changed To: "
+                "Pivot Setpoint Changed To: "
                     + pivotSetpoints[pivotLevel]
                     + " Reef Level: "
                     + pivotLevel));

@@ -34,7 +34,6 @@ public class Robot extends LoggedRobot {
 
   // Control the mode of the robot
   public static final RobotMode mode = Robot.isReal() ? RobotMode.REAL : RobotMode.SIM;
-  // public static final RobotMode mode = RobotMode.REPLAY;
 
   // Auto Command
   private final LoggedDashboardChooser<Command> autoChooser =
@@ -103,12 +102,7 @@ public class Robot extends LoggedRobot {
                         * 0.25)));
 
     autoChooser.addDefaultOption("None", Commands.none());
-    // controller
-    //     .a()
-    //     .whileTrue(
-    //         Commands.runOnce(
-    //             () -> drivebase.setPose(new Pose2d(0, 0, new Rotation2d(0))), drivebase));
-    // controller.b().whileTrue(drivebase.goToPose(new Pose2d(0, 0, new Rotation2d(0))));
+
   }
 
   @Override
