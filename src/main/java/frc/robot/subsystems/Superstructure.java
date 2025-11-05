@@ -65,6 +65,11 @@ public class Superstructure {
     };
   }
 
+  public Command selectPivotHeight(int height) {
+    return Commands.runOnce(() -> pivotLevel = height)
+        .andThen(logMessage("Selected Pivot Height: " + height));
+  }
+
   // Change Elevator Setpoint to the selected reef level.
   public Command raisePivot() {
     return pivot
