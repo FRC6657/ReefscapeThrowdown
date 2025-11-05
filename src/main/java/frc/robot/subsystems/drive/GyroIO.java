@@ -9,8 +9,7 @@ public interface GyroIO {
   public static class GyroIOInputs {
     public boolean connected = false;
     public double yawPosition = 0.0;
-    public double yawVelocityRadPerSec =
-        0.0;
+    public double yawVelocityRadPerSec = 0.0;
   }
 
   public default void updateInputs(GyroIOInputs inputs) {}
