@@ -15,7 +15,6 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.RobotController;
-import frc.robot.Constants.CodeConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.DriveConstants.SwerveModuleInformation;
 import frc.robot.Constants.MAXSwerveConstants;
@@ -75,8 +74,8 @@ public class MAXSwerveIO_Real implements MAXSwerveIO {
         MAXSwerveConstants.kDriveEncoderPositionFactor); // meters
     driveConfig.encoder.velocityConversionFactor(
         MAXSwerveConstants.kDriveEncoderPositionFactor); // meters per second
-    driveConfig.encoder.uvwMeasurementPeriod((int) (1000 / CodeConstants.kMainLoopFrequency));
-    driveConfig.encoder.uvwAverageDepth(2);
+    // driveConfig.encoder.uvwMeasurementPeriod((int) (1000 / CodeConstants.kMainLoopFrequency));
+    // driveConfig.encoder.uvwAverageDepth(2);
 
     turnConfig.absoluteEncoder.positionConversionFactor(
         MAXSwerveConstants.kTurnEncoderPositionFactor);
