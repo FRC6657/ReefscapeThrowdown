@@ -73,11 +73,9 @@ public class Superstructure {
 
   public Command Ready() {
     return Commands.sequence(
-        hopper.changeSetpoint(0.5),
         armext.setSpeed(0.1),
         claw.changeSetpoint(-0.3),
         Commands.waitSeconds(0.2),
-        hopper.changeSetpoint(0),
         armext.setSpeed(-0.1),
         claw.changeSetpoint(-0.2));
   // TODO: Find correct speeds
