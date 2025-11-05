@@ -7,7 +7,6 @@ import frc.robot.subsystems.arm.claw.ClawWheels;
 import frc.robot.subsystems.arm.extension.ArmExtension;
 import frc.robot.subsystems.arm.pivot.ArmPivot;
 import frc.robot.subsystems.drive.MAXSwerve;
-
 import org.littletonrobotics.junction.AutoLogOutput;
 
 public class Superstructure {
@@ -19,11 +18,7 @@ public class Superstructure {
 
   private String extentionState = "retracted";
 
-  public Superstructure(
-      MAXSwerve drivebase,
-      ArmExtension armext,
-      ClawWheels claw,
-      ArmPivot pivot) {
+  public Superstructure(MAXSwerve drivebase, ArmExtension armext, ClawWheels claw, ArmPivot pivot) {
     this.drivebase = drivebase;
     this.armext = armext;
     this.claw = claw;
