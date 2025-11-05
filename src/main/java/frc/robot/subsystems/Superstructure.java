@@ -122,4 +122,12 @@ public class Superstructure {
         claw.changeSetpoint(0),
         pivot.changeSetpoint(Constants.ArmPivotConstants.initialSetpoint));
   }
+
+  public Command Intake() {
+    return Commands.sequence(
+      hopper.changeSetpoint(0.5),
+      Commands.waitSeconds(1),
+      hopper.changeSetpoint(0)
+    );
+  }
 }
