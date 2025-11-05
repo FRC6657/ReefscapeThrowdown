@@ -55,15 +55,16 @@ public class ArmPivotIO_Real implements ArmPivotIO {
     inputs.kAcceleration = pivotMotor.getAcceleration().getValueAsDouble() * 360;
     inputs.kSetpoint = kSetpoint;
 
-    pivotMotor.setControl(motionMagicVoltage.withPosition(kSetpoint / 360));
+    pivotMotor.setControl(motionMagicVoltage);
   }
 
   @Override
   public void changeSetpoint(double setpoint) {
-    kSetpoint =
+    motionMagicVoltage.Position =
         MathUtil.clamp(
-            setpoint,
-            Constants.ArmPivotConstants.initialSetpoint,
-            Constants.ArmPivotConstants.maxStepoint);
+                setpoint,
+                Constants.ArmPivotConstants.initialSetpoint,
+                Constants.ArmPivotConstants.maxStepoint)
+            / 360;
   }
 }

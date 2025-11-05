@@ -18,11 +18,7 @@ public class ArmExtensionIO_Sim implements ArmExtensionIO {
 
   @Override
   public void updateInputs(ArmExtensionIOInputs inputs) {
-
-    // update sim
     armExtensionSim.update(1 / Constants.CodeConstants.kMainLoopFrequency);
-
-    // inputs
     inputs.volts = voltage; // volts
   }
 

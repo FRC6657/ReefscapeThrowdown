@@ -102,7 +102,6 @@ public class Robot extends LoggedRobot {
                         * 0.25)));
 
     autoChooser.addDefaultOption("None", Commands.none());
-
   }
 
   @Override

@@ -25,7 +25,6 @@ public class ArmPivot extends SubsystemBase {
     return changeSetpoint(setpoint.getAsDouble());
   }
 
-  // TODO Needs clamp
   public void setpoint(double setpoint) {
     io.changeSetpoint(setpoint);
   }

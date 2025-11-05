@@ -38,6 +38,7 @@ public class Constants {
     public static final int kPivot = 10;
     public static final int kClawWheels = 11;
     public static final int kClawExtension = 12;
+    public static final int kHopper = 13;
   }
 
   public static final class AutoConstants {
