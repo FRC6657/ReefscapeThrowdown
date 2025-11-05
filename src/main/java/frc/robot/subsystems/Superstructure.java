@@ -39,11 +39,12 @@ public class Superstructure {
   @AutoLogOutput(key = "RobotStates/Elevator Level")
   private int pivotLevel = 2; // Selected Reef Level
 
-  public Superstructure(MAXSwerve drivebase, ArmExtension armext, ClawWheels claw, ArmPivot pivot) {
+  public Superstructure(MAXSwerve drivebase, ArmExtension armext, ClawWheels claw, ArmPivot pivot, Hopper hopper) {
     this.drivebase = drivebase;
     this.armext = armext;
     this.claw = claw;
     this.pivot = pivot;
+    this.hopper = hopper;
   }
 
   public Command logMessage(String message) {
