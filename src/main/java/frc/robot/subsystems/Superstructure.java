@@ -28,10 +28,13 @@ public class Superstructure {
   // Array for easily grabbing setpoint angles.
   private double[] pivotSetpoints = {
     Constants.ArmPivotConstants.initialSetpoint,
-    0, // L1
-    30, // L2
-    60, // L3
-  }; // TODO find correct angles
+    -17, // L1 Ready
+    12, // L2 Ready
+    55, // L3 Ready
+    -17, //L1 Score
+    -25, //L2 Score
+    17, //L3 Score
+  };
 
   @AutoLogOutput(key = "RobotStates/Elevator Level")
   private int pivotLevel = 2; // Selected Reef Level
