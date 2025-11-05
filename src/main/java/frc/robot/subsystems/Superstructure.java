@@ -10,6 +10,8 @@ import frc.robot.subsystems.arm.claw.ClawWheels;
 import frc.robot.subsystems.arm.extension.ArmExtension;
 import frc.robot.subsystems.arm.pivot.ArmPivot;
 import frc.robot.subsystems.drive.MAXSwerve;
+import frc.robot.subsystems.hopper.Hopper;
+
 import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
 
@@ -19,6 +21,7 @@ public class Superstructure {
   private ArmExtension armext;
   private ClawWheels claw;
   private ArmPivot pivot;
+  private Hopper hopper;
 
   private String extentionState = "retracted";
 
