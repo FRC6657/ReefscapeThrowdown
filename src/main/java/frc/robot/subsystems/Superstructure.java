@@ -65,14 +65,13 @@ public class Superstructure {
     };
   }
 
-  public Command Ready(){
+  public Command Ready() {
     return Commands.sequence(
-      armext.setSpeed(0.1),
-      claw.changeSetpoint(-0.3),
-      Commands.waitSeconds(0.2),
-      armext.setSpeed(-0.1),
-      claw.changeSetpoint(-0.2)
-    );
+        armext.setSpeed(0.1),
+        claw.changeSetpoint(-0.3),
+        Commands.waitSeconds(0.2),
+        armext.setSpeed(-0.1),
+        claw.changeSetpoint(-0.2));
   }
 
   public Command selectPivotHeight(int height) {
@@ -94,9 +93,8 @@ public class Superstructure {
 
   public Command HomeRobot() {
     return Commands.sequence(
-      armext.setSpeed(0),
-      claw.changeSetpoint(0),
-      pivot.changeSetpoint(Constants.ArmPivotConstants.initialSetpoint)
-    );
+        armext.setSpeed(0),
+        claw.changeSetpoint(0),
+        pivot.changeSetpoint(Constants.ArmPivotConstants.initialSetpoint));
   }
 }

@@ -15,7 +15,6 @@ public class ClawWheelsIO_Sim implements ClawWheelsIO {
 
   @Override
   public void updateInputs(ClawWheelsIOInputs inputs) {
-    inputs.kTemp = 0;
     inputs.kCurrent = clawWheelSim.getCurrentDrawAmps();
     inputs.kVoltage = voltage;
     inputs.kSetpoint = setpoint;
