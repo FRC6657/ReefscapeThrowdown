@@ -25,10 +25,10 @@ public class Superstructure {
   // Array for easily grabbing setpoint angles.
   private double[] pivotSetpoints = {
     Constants.ArmPivotConstants.initialSetpoint,
-    Units.inchesToMeters(0), // L1
-    Units.inchesToMeters(16.5), // L2
-    Units.inchesToMeters(31.5), // L3
-  };
+    0, // L1
+    30, // L2
+    60, // L3
+  }; // TODO find correct angles
 
   @AutoLogOutput(key = "RobotStates/Elevator Level")
   private int pivotLevel = 2; // Selected Reef Level
@@ -65,6 +65,16 @@ public class Superstructure {
     };
   }
 
+  public Command Ready(){
+    return Commands.sequence(
+      armext.setSpeed(0.1),
+      claw.changeSetpoint(-0.3),
+      Commands.waitSeconds(0.2),
+      armext.setSpeed(-0.1),
+      claw.changeSetpoint(-0.2)
+    );
+  }
+
   public Command selectPivotHeight(int height) {
     return Commands.runOnce(() -> pivotLevel = height)
         .andThen(logMessage("Selected Pivot Height: " + height));
@@ -83,6 +93,10 @@ public class Superstructure {
   }
 
   public Command HomeRobot() {
-    return Commands.sequence(Commands.none());
+    return Commands.sequence(
+      armext.setSpeed(0),
+      claw.changeSetpoint(0),
+      pivot.changeSetpoint(Constants.ArmPivotConstants.initialSetpoint)
+    );
   }
 }
