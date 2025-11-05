@@ -12,7 +12,7 @@ public class ArmPivotIO_Real implements ArmPivotIO {
   // Pivot Motor Controller
   TalonFX pivotMotor = new TalonFX(Constants.CANID.kPivot);
   private MotionMagicVoltage motionMagicVoltage =
-      new MotionMagicVoltage(Constants.ArmPivotConstants.initialSetpoint);
+      new MotionMagicVoltage(Constants.ArmPivotConstants.initialSetpoint / 360);
 
   private double kSetpoint = Constants.ArmPivotConstants.initialSetpoint;
 
@@ -39,6 +39,8 @@ public class ArmPivotIO_Real implements ArmPivotIO {
 
     pivotMotor.optimizeBusUtilization();
 
+    pivotMotor.setPosition(Constants.ArmPivotConstants.initialSetpoint / 360);
+
     changeSetpoint(Constants.ArmPivotConstants.initialSetpoint);
   }
 
@@ -48,25 +50,20 @@ public class ArmPivotIO_Real implements ArmPivotIO {
     inputs.kTemp = pivotMotor.getDeviceTemp().getValueAsDouble();
     inputs.kCurrent = pivotMotor.getSupplyCurrent().getValueAsDouble();
     inputs.kVoltage = pivotMotor.getMotorVoltage().getValueAsDouble();
-    inputs.kPosition =
-        pivotMotor.getPosition().getValueAsDouble()
-            * 360; // TODO: Log degrees instead of mechanism rotations
+    inputs.kPosition = pivotMotor.getPosition().getValueAsDouble() * 360;
     inputs.kVelocity = pivotMotor.getVelocity().getValueAsDouble() * 360;
     inputs.kAcceleration = pivotMotor.getAcceleration().getValueAsDouble() * 360;
     inputs.kSetpoint = kSetpoint;
 
-    pivotMotor.setControl(
-        motionMagicVoltage.withPosition(
-            kSetpoint)); // TODO convert setpoint back to mechanism rotations
+    pivotMotor.setControl(motionMagicVoltage.withPosition(kSetpoint / 360));
   }
 
   @Override
   public void changeSetpoint(double setpoint) {
     kSetpoint =
-        setpoint
-            + MathUtil.clamp(
-                setpoint,
-                Constants.ArmPivotConstants.initialSetpoint,
-                Constants.ArmPivotConstants.maxStepoint); // TODO: needs clamping
+        MathUtil.clamp(
+            setpoint,
+            Constants.ArmPivotConstants.initialSetpoint,
+            Constants.ArmPivotConstants.maxStepoint);
   }
 }

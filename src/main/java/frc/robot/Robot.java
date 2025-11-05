@@ -1,8 +1,6 @@
 package frc.robot;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
@@ -105,12 +103,12 @@ public class Robot extends LoggedRobot {
                         * 0.25)));
 
     autoChooser.addDefaultOption("None", Commands.none());
-    controller
-        .a()
-        .whileTrue(
-            Commands.runOnce(
-                () -> drivebase.setPose(new Pose2d(0, 0, new Rotation2d(0))), drivebase));
-    controller.b().whileTrue(drivebase.goToPose(new Pose2d(0, 0, new Rotation2d(0))));
+    // controller
+    //     .a()
+    //     .whileTrue(
+    //         Commands.runOnce(
+    //             () -> drivebase.setPose(new Pose2d(0, 0, new Rotation2d(0))), drivebase));
+    // controller.b().whileTrue(drivebase.goToPose(new Pose2d(0, 0, new Rotation2d(0))));
   }
 
   @Override
