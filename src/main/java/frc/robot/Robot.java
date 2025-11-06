@@ -132,6 +132,8 @@ public class Robot extends LoggedRobot {
     operator.leftBumper().onTrue(superstructure.HomeRobot());
 
     driver.leftBumper().onTrue(superstructure.HomeRobot());
+    driver.rightTrigger().onTrue(superstructure.raisePivot());
+    driver.leftTrigger().onTrue(superstructure.Score());
 
   }
 
