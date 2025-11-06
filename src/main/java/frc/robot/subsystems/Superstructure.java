@@ -131,7 +131,7 @@ public class Superstructure {
     );
   }
 
-  public Command scoreCoralCommand(){
+  public Command Score(){
     return Commands.sequence(
       logMessage("Score"),
       armext.setSpeed(0.5), //keep extended full time
