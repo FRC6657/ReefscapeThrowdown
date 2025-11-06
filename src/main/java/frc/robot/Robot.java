@@ -4,7 +4,6 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
-import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -73,12 +72,12 @@ public class Robot extends LoggedRobot {
                 new MAXSwerveIO_Sim()
               });
   private ArmPivot pivot =
-      new ArmPivot(RobotBase.isReal() ? new ArmPivotIO_Real() : new ArmPivotIO_Sim());
+      new ArmPivot(mode == RobotMode.REAL ? new ArmPivotIO_Real() : new ArmPivotIO_Sim());
   private ArmExtension armext =
-      new ArmExtension(RobotBase.isReal() ? new ArmExtensionIO_Real() : new ArmExtensionIO_Sim());
+      new ArmExtension(mode == RobotMode.REAL ? new ArmExtensionIO_Real() : new ArmExtensionIO_Sim());
   private ClawWheels claw =
-      new ClawWheels(RobotBase.isReal() ? new ClawWheelsIO_Real() : new ClawWheelsIO_Sim());
-  private Hopper hopper = new Hopper(RobotBase.isReal() ? new HopperIO_Real() : new HopperIO_Sim());
+      new ClawWheels(mode == RobotMode.REAL ? new ClawWheelsIO_Real() : new ClawWheelsIO_Sim());
+  private Hopper hopper = new Hopper(mode == RobotMode.REAL ? new HopperIO_Real() : new HopperIO_Sim());
 
   @SuppressWarnings(value = "resource")
   @Override
