@@ -11,7 +11,7 @@ public class GyroIO_Real implements GyroIO {
 
   private double yaw = pigeon.getYaw();
   private double previousYaw = yaw;
-  private double yawVelocity = 0.0; // TODO calculate velocity and update every tick
+  private double yawVelocity = 0.0;
 
   /** Gyro IO for real robot */
   public GyroIO_Real() {

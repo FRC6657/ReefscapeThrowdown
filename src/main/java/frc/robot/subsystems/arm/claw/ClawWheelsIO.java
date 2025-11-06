@@ -6,11 +6,9 @@ public interface ClawWheelsIO {
 
   @AutoLog
   public static class ClawWheelsIOInputs {
-    // TODO: k is usually a prefix for constants. Change name.
     public double kSetpoint = 0.0;
-    public double kTemp = 0.0; // TODO: Probably dont need to log this
     public double kVoltage = 0.0;
-    public double kCurrent = 0.0; // TODO: Probably dont need to log this
+    public double kCurrent = 0.0;
   }
 
   public default void updateInputs(ClawWheelsIOInputs inputs) {}

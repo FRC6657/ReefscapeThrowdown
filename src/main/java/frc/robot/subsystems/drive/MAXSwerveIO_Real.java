@@ -73,9 +73,7 @@ public class MAXSwerveIO_Real implements MAXSwerveIO {
     driveConfig.encoder.positionConversionFactor(
         MAXSwerveConstants.kDriveEncoderPositionFactor); // meters
     driveConfig.encoder.velocityConversionFactor(
-        MAXSwerveConstants.kDriveEncoderPositionFactor); // meters per second
-    // driveConfig.encoder.uvwMeasurementPeriod((int) (1000 / CodeConstants.kMainLoopFrequency));
-    // driveConfig.encoder.uvwAverageDepth(2);
+        MAXSwerveConstants.kDriveEncoderVelocityFactor); // meters per second
 
     turnConfig.absoluteEncoder.positionConversionFactor(
         MAXSwerveConstants.kTurnEncoderPositionFactor);
