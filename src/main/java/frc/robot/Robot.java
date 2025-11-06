@@ -12,14 +12,8 @@ import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.MAXSwerveConstants;
 import frc.robot.subsystems.Superstructure;
 import frc.robot.subsystems.arm.claw.ClawWheels;
-import frc.robot.subsystems.arm.claw.ClawWheelsIO_Real;
-import frc.robot.subsystems.arm.claw.ClawWheelsIO_Sim;
 import frc.robot.subsystems.arm.extension.ArmExtension;
-import frc.robot.subsystems.arm.extension.ArmExtensionIO_Real;
-import frc.robot.subsystems.arm.extension.ArmExtensionIO_Sim;
 import frc.robot.subsystems.arm.pivot.ArmPivot;
-import frc.robot.subsystems.arm.pivot.ArmPivotIO_Real;
-import frc.robot.subsystems.arm.pivot.ArmPivotIO_Sim;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIO_Real;
 import frc.robot.subsystems.drive.MAXSwerve;
@@ -27,8 +21,7 @@ import frc.robot.subsystems.drive.MAXSwerveIO;
 import frc.robot.subsystems.drive.MAXSwerveIO_Real;
 import frc.robot.subsystems.drive.MAXSwerveIO_Sim;
 import frc.robot.subsystems.hopper.Hopper;
-import frc.robot.subsystems.hopper.HopperIO_Real;
-import frc.robot.subsystems.hopper.HopperIO_Sim;
+
 import org.littletonrobotics.junction.LogFileUtil;
 import org.littletonrobotics.junction.LoggedRobot;
 import org.littletonrobotics.junction.Logger;
@@ -39,6 +32,10 @@ import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 
 public class Robot extends LoggedRobot {
 
+  private ArmExtension armext;
+  private ClawWheels claw;
+  private ArmPivot pivot;
+  private Hopper hopper;
   private Superstructure superstructure;
 
   public static enum RobotMode {
@@ -55,7 +52,7 @@ public class Robot extends LoggedRobot {
       new LoggedDashboardChooser<>("Auto Chooser");
 
   // Driver Controllers
-  private CommandXboxController controller = new CommandXboxController(0);
+  private CommandXboxController driver = new CommandXboxController(0);
   private CommandXboxController operator = new CommandXboxController(1);
 
   // Subsystems
@@ -75,13 +72,7 @@ public class Robot extends LoggedRobot {
                 new MAXSwerveIO_Sim(),
                 new MAXSwerveIO_Sim()
               });
-  private ArmPivot pivot =
-      new ArmPivot(mode == RobotMode.REAL ? new ArmPivotIO_Real() : new ArmPivotIO_Sim());
-  private ArmExtension armext =
-      new ArmExtension(mode == RobotMode.REAL ? new ArmExtensionIO_Real() : new ArmExtensionIO_Sim());
-  private ClawWheels claw =
-      new ClawWheels(mode == RobotMode.REAL ? new ClawWheelsIO_Real() : new ClawWheelsIO_Sim());
-  private Hopper hopper = new Hopper(mode == RobotMode.REAL ? new HopperIO_Real() : new HopperIO_Sim());
+
   @SuppressWarnings(value = "resource")
   @Override
   public void robotInit() {
@@ -113,13 +104,13 @@ public class Robot extends LoggedRobot {
         drivebase.runVelocityFieldRelative(
             () ->
                 new ChassisSpeeds(
-                    -MathUtil.applyDeadband(controller.getLeftY(), 0.05)
+                    -MathUtil.applyDeadband(driver.getLeftY(), 0.05)
                         * MAXSwerveConstants.kMaxDriveSpeed
                         * 0.25,
-                    -MathUtil.applyDeadband(controller.getLeftX(), 0.15)
+                    -MathUtil.applyDeadband(driver.getLeftX(), 0.15)
                         * MAXSwerveConstants.kMaxDriveSpeed
                         * 0.25,
-                    -MathUtil.applyDeadband(controller.getRightX(), 0.15)
+                    -MathUtil.applyDeadband(driver.getRightX(), 0.15)
                         * DriveConstants.kMaxAngularVelocity
                         * 0.25)));
 
@@ -128,6 +119,10 @@ public class Robot extends LoggedRobot {
     operator.y().onTrue(superstructure.selectPivotHeight(3));
     operator.leftTrigger().onTrue(superstructure.ready());
     operator.rightTrigger().onTrue(superstructure.Intake());
+    operator.leftBumper().onTrue(superstructure.HomeRobot());
+
+    driver.leftBumper().onTrue(superstructure.HomeRobot());
+
   }
 
   @Override
