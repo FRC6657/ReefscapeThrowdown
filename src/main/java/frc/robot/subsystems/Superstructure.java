@@ -134,7 +134,7 @@ public class Superstructure {
         Commands.waitSeconds(0.5),
         claw.changeSetpoint(0.5),
         Commands.waitSeconds(0.5),
-        claw.changeSetpoint(0),  
+        claw.changeSetpoint(0),
         Commands.waitSeconds(0.5));
   }
 }
