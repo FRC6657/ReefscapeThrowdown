@@ -56,10 +56,7 @@ public class Robot extends LoggedRobot {
   // Driver Controllers
   private CommandXboxController driver = new CommandXboxController(0);
   private CommandXboxController operator = new CommandXboxController(1);
-
-  // Subsystems
-  private ArmPivot pivot = new ArmPivot(new ArmPivotIO_Real());
-
+  
   private MAXSwerve drivebase =
       new MAXSwerve(
           mode == RobotMode.REAL ? new GyroIO_Real() : new GyroIO() {},
