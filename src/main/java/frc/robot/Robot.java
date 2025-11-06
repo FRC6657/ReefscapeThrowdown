@@ -4,18 +4,32 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.MAXSwerveConstants;
+import frc.robot.subsystems.arm.claw.ClawWheels;
+import frc.robot.subsystems.arm.claw.ClawWheelsIO_Real;
+import frc.robot.subsystems.arm.claw.ClawWheelsIO_Sim;
+import frc.robot.subsystems.arm.extension.ArmExtension;
+import frc.robot.subsystems.arm.extension.ArmExtensionIO_Real;
+import frc.robot.subsystems.arm.extension.ArmExtensionIO_Sim;
+import frc.robot.subsystems.arm.pivot.ArmPivot;
+import frc.robot.subsystems.arm.pivot.ArmPivotIO_Real;
+import frc.robot.subsystems.arm.pivot.ArmPivotIO_Sim;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIO_Real;
 import frc.robot.subsystems.drive.MAXSwerve;
 import frc.robot.subsystems.drive.MAXSwerveIO;
 import frc.robot.subsystems.drive.MAXSwerveIO_Real;
 import frc.robot.subsystems.drive.MAXSwerveIO_Sim;
+import frc.robot.subsystems.hopper.Hopper;
+import frc.robot.subsystems.hopper.HopperIO_Real;
+import frc.robot.subsystems.hopper.HopperIO_Sim;
+
 import org.littletonrobotics.junction.LogFileUtil;
 import org.littletonrobotics.junction.LoggedRobot;
 import org.littletonrobotics.junction.Logger;
@@ -59,7 +73,12 @@ public class Robot extends LoggedRobot {
                 new MAXSwerveIO_Sim(),
                 new MAXSwerveIO_Sim()
               });
-
+  private ArmPivot pivot =
+      new ArmPivot(RobotBase.isReal() ? new ArmPivotIO_Real() : new ArmPivotIO_Sim());
+  private ArmExtension armext =
+      new ArmExtension(RobotBase.isReal() ? new ArmExtensionIO_Real() : new ArmExtensionIO_Sim());
+  private ClawWheels claw = new ClawWheels(RobotBase.isReal() ? new ClawWheelsIO_Real() : new ClawWheelsIO_Sim());
+  private Hopper hopper = new Hopper(RobotBase.isReal() ? new HopperIO_Real() : new HopperIO_Sim());
   @SuppressWarnings(value = "resource")
   @Override
   public void robotInit() {
