@@ -236,8 +236,8 @@ public class Constants {
     public static final double gearRatio = (70 / 10) * (70 / 20) * (60 / 15);
     public static final double initialSetpoint = -90; // Remember unit circle!!
     public static final double maxStepoint = 45;
-    public static final double kSupplyLimit = 20;
-    public static final double kStatorLimit = 40;
+    public static final double kSupplyLimit = 30;
+    public static final double kStatorLimit = 60;
     public static final CurrentLimitsConfigs currentConfigs =
         new CurrentLimitsConfigs()
             .withStatorCurrentLimit(kStatorLimit)
@@ -251,11 +251,11 @@ public class Constants {
             .withKS(0) // Volts
             .withKG(0.0) // Volts
             .withGravityType(GravityTypeValue.Elevator_Static)
-            .withKP(1.0)
+            .withKP(17.0)
             .withKI(0)
             .withKD(0);
-    public static double kMaxVelocity = 50;
-    public static double kMaxAcceleration = 50;
+    public static double kMaxVelocity = 50d / 360;
+    public static double kMaxAcceleration = 50d / 360;
     public static MotionMagicConfigs kMotionMagicConfig =
         new MotionMagicConfigs()
             .withMotionMagicCruiseVelocity(kMaxVelocity)
