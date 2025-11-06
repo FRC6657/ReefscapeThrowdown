@@ -56,7 +56,7 @@ public class Robot extends LoggedRobot {
   // Driver Controllers
   private CommandXboxController driver = new CommandXboxController(0);
   private CommandXboxController operator = new CommandXboxController(1);
-  
+
   private MAXSwerve drivebase =
       new MAXSwerve(
           mode == RobotMode.REAL ? new GyroIO_Real() : new GyroIO() {},
@@ -128,10 +128,10 @@ public class Robot extends LoggedRobot {
     operator.b().onTrue(superstructure.selectPivotHeight(2));
     operator.y().onTrue(superstructure.selectPivotHeight(3));
     operator.leftTrigger().onTrue(superstructure.ready());
-    operator.rightTrigger().onTrue(superstructure.Intake());
-    operator.leftBumper().onTrue(superstructure.HomeRobot());
+    operator.rightTrigger().onTrue(superstructure.runIntake()).onFalse(superstructure.homeRobot());
+    operator.leftBumper().onTrue(superstructure.homeRobot());
 
-    driver.leftBumper().onTrue(superstructure.HomeRobot());
+    driver.leftBumper().onTrue(superstructure.homeRobot());
     driver.rightTrigger().onTrue(superstructure.raisePivot());
     driver.leftTrigger().onTrue(superstructure.Score());
   }

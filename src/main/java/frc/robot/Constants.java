@@ -250,7 +250,7 @@ public class Constants {
         new Slot0Configs()
             .withKS(0) // Volts
             .withKG(0.0) // Volts
-            .withGravityType(GravityTypeValue.Elevator_Static)
+            .withGravityType(GravityTypeValue.Arm_Cosine)
             .withKP(17.0)
             .withKI(0)
             .withKD(0);
