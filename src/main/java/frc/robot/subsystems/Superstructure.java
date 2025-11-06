@@ -130,4 +130,19 @@ public class Superstructure {
       hopper.changeSetpoint(0)
     );
   }
+
+  public Command scoreCoralCommand(){
+    return Commands.sequence(
+      logMessage("Score"),
+      armext.setSpeed(0.5), //keep extended full time
+      Commands.waitSeconds(0.5),
+      armext.setSpeed(0),
+      claw.changeSetpoint(0.5),
+      Commands.waitSeconds(0.5),
+      claw.changeSetpoint(0),
+      armext.setSpeed(-0.5),
+      Commands.waitSeconds(0.5),
+      armext.setSpeed(0)
+    );
+  }
 }
