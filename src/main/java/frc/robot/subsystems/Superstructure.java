@@ -125,24 +125,20 @@ public class Superstructure {
 
   public Command Intake() {
     return Commands.sequence(
-      hopper.changeSetpoint(0.5),
-      Commands.waitSeconds(1),
-      hopper.changeSetpoint(0)
-    );
+        hopper.changeSetpoint(0.5), Commands.waitSeconds(1), hopper.changeSetpoint(0));
   }
 
-  public Command Score(){
+  public Command Score() {
     return Commands.sequence(
-      logMessage("Score"),
-      armext.setSpeed(0.5), //keep extended full time
-      Commands.waitSeconds(0.5),
-      armext.setSpeed(0),
-      claw.changeSetpoint(0.5),
-      Commands.waitSeconds(0.5),
-      claw.changeSetpoint(0),
-      armext.setSpeed(-0.5),
-      Commands.waitSeconds(0.5),
-      armext.setSpeed(0)
-    );
+        logMessage("Score"),
+        armext.setSpeed(0.5), // keep extended full time
+        Commands.waitSeconds(0.5),
+        armext.setSpeed(0),
+        claw.changeSetpoint(0.5),
+        Commands.waitSeconds(0.5),
+        claw.changeSetpoint(0),
+        armext.setSpeed(-0.5),
+        Commands.waitSeconds(0.5),
+        armext.setSpeed(0));
   }
 }
