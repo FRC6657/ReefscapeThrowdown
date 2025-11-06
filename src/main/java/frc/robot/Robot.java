@@ -10,6 +10,8 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.MAXSwerveConstants;
+import frc.robot.subsystems.arm.pivot.ArmPivot;
+import frc.robot.subsystems.arm.pivot.ArmPivotIO_Real;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIO_Real;
 import frc.robot.subsystems.drive.MAXSwerve;
@@ -44,6 +46,8 @@ public class Robot extends LoggedRobot {
   private CommandXboxController controller = new CommandXboxController(0);
 
   // Subsystems
+  private ArmPivot pivot = new ArmPivot(new ArmPivotIO_Real());
+
   private MAXSwerve drivebase =
       new MAXSwerve(
           mode == RobotMode.REAL ? new GyroIO_Real() : new GyroIO() {},
@@ -109,6 +113,9 @@ public class Robot extends LoggedRobot {
     //         Commands.runOnce(
     //             () -> drivebase.setPose(new Pose2d(0, 0, new Rotation2d(0))), drivebase));
     // controller.b().whileTrue(drivebase.goToPose(new Pose2d(0, 0, new Rotation2d(0))));
+
+    controller.a().onTrue(pivot.changeSetpoint(0));
+    controller.b().onTrue(pivot.changeSetpoint(-90));
   }
 
   @Override
