@@ -90,6 +90,9 @@ public class Robot extends LoggedRobot {
     hopper = new Hopper(mode == RobotMode.REAL ? new HopperIO_Real() : new HopperIO_Sim());
 
     superstructure = new Superstructure(drivebase, armext, claw, pivot, hopper);
+
+    autoChooser.addDefaultOption("Do Nothing", Commands.none());
+    autoChooser.addOption("Taxi", superstructure.Taxi());
   }
 
   @SuppressWarnings(value = "resource")
