@@ -149,16 +149,10 @@ public class Robot extends LoggedRobot {
     driver.rightTrigger().onTrue(superstructure.raisePivot());
     driver.leftTrigger().onTrue(superstructure.Score());
 
-
     autoChooser.addDefaultOption("Nothing", Commands.print("Nothing Auto Selected"));
-    autoChooser.addOption("Taxi", 
-      Commands.sequence(
-        drivebase.runVelocity(
-          () -> new ChassisSpeeds(1, 0, 0)
-        ).withTimeout(2)
-      )
-    );
-
+    autoChooser.addOption(
+        "Taxi",
+        Commands.sequence(drivebase.runVelocity(() -> new ChassisSpeeds(1, 0, 0)).withTimeout(2)));
   }
 
   @Override

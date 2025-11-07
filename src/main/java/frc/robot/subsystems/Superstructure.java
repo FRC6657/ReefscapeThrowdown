@@ -174,8 +174,7 @@ public class Superstructure {
 
   public Command Taxi(){
     return Commands.sequence(
-      drivebase.runVelocityFieldRelative(() -> new ChassisSpeeds(0.5,0,0)),
-      Commands.waitSeconds(2.5),
+      drivebase.runVelocityFieldRelative(() -> new ChassisSpeeds(0.5,0,0)).withTimeout(3.5),
       drivebase.runVelocityFieldRelative(() -> new ChassisSpeeds(0,0,0)));
   }
 
