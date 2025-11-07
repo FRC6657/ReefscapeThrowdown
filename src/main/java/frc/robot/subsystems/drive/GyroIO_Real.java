@@ -1,7 +1,6 @@
 package frc.robot.subsystems.drive;
 
 import com.ctre.phoenix.sensors.PigeonIMU;
-import edu.wpi.first.math.util.Units;
 import frc.robot.Constants.CANID;
 
 public class GyroIO_Real implements GyroIO {
@@ -16,6 +15,6 @@ public class GyroIO_Real implements GyroIO {
 
   @Override
   public void updateInputs(GyroIOInputs inputs) {
-    inputs.yawPosition = Units.degreesToRadians(pigeon.getFusedHeading());
+    inputs.yawPosition = pigeon.getFusedHeading();
   }
 }

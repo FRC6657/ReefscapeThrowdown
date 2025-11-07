@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.MAXSwerveConstants;
@@ -109,6 +110,8 @@ public class Robot extends LoggedRobot {
     }
     Logger.start();
 
+    superstructure = new Superstructure(drivebase, armext, claw, pivot, hopper);
+
     // Set the default command for the drivebase for TeleOP driving
     drivebase.setDefaultCommand(
         drivebase.runVelocityFieldRelative(
@@ -128,12 +131,23 @@ public class Robot extends LoggedRobot {
     operator.b().onTrue(superstructure.selectPivotHeight(2));
     operator.y().onTrue(superstructure.selectPivotHeight(3));
     operator.leftTrigger().onTrue(superstructure.ready());
-    operator.rightTrigger().onTrue(superstructure.runIntake()).onFalse(superstructure.homeRobot());
+    operator.rightTrigger().onTrue(superstructure.runIntake()).onFalse(superstructure.stopIntake());
     operator.leftBumper().onTrue(superstructure.homeRobot());
 
     driver.leftBumper().onTrue(superstructure.homeRobot());
     driver.rightTrigger().onTrue(superstructure.raisePivot());
     driver.leftTrigger().onTrue(superstructure.Score());
+
+
+    autoChooser.addDefaultOption("Nothing", Commands.print("Nothing Auto Selected"));
+    autoChooser.addOption("Taxi", 
+      Commands.sequence(
+        drivebase.runVelocity(
+          () -> new ChassisSpeeds(1, 0, 0)
+        ).withTimeout(2)
+      )
+    );
+
   }
 
   @Override
