@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -170,4 +171,12 @@ public class Superstructure {
             pivot.changeSetpoint(() -> pivotSetpoints[pivotLevel + 3]),
             () -> pivotLevel == 1));
   }
+
+  public Command Taxi(){
+    return Commands.sequence(
+      drivebase.runVelocityFieldRelative(() -> new ChassisSpeeds(0.5,0,0)),
+      Commands.waitSeconds(2.5),
+      drivebase.runVelocityFieldRelative(() -> new ChassisSpeeds(0,0,0)));
+  }
+
 }
