@@ -53,7 +53,7 @@ public class ArmPivotIO_Real implements ArmPivotIO {
     inputs.kPosition = pivotMotor.getPosition().getValueAsDouble() * 360;
     inputs.kVelocity = pivotMotor.getVelocity().getValueAsDouble() * 360;
     inputs.kAcceleration = pivotMotor.getAcceleration().getValueAsDouble() * 360;
-    inputs.kSetpoint = kSetpoint;
+    inputs.kSetpoint = motionMagicVoltage.Position * 360;
 
     pivotMotor.setControl(motionMagicVoltage);
   }
