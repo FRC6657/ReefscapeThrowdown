@@ -78,8 +78,8 @@ public class Superstructure {
   /** Extends the claw */
   public Command extendClaw() {
     return Commands.sequence(
-        armext.setSpeed(0.2),
-        Commands.waitSeconds(0.5),
+        armext.setSpeed(0.1),
+        Commands.waitSeconds(0.2),
         armext.setSpeed(0),
         Commands.runOnce(
             () -> {
@@ -90,7 +90,7 @@ public class Superstructure {
   /** Retracts the claw */
   public Command retractClaw() {
     return Commands.sequence(
-        armext.setSpeed(-0.2),
+        armext.setSpeed(-0.1),
         Commands.waitSeconds(0.5),
         armext.setSpeed(0),
         Commands.runOnce(
@@ -118,47 +118,37 @@ public class Superstructure {
   /** Raise the arm to the height selected by selectPivotHeight */
   public Command raisePivot() {
     return Commands.sequence(
-      retractClaw().onlyIf(() -> (extentionState == "extended")),
-      pivot.changeSetpoint(() -> pivotSetpoints[pivotLevel])
-    ).andThen(
-      logMessage(
-          "Pivot Setpoint Changed To: "
-              + pivotSetpoints[pivotLevel]
-              + " Reef Level: "
-              + pivotLevel));
+            retractClaw().onlyIf(() -> (extentionState == "extended")),
+            pivot.changeSetpoint(() -> pivotSetpoints[pivotLevel]))
+        .andThen(
+            logMessage(
+                "Pivot Setpoint Changed To: "
+                    + pivotSetpoints[pivotLevel]
+                    + " Reef Level: "
+                    + pivotLevel));
   }
-
 
   /** Homes the arm and stops all motors */
   public Command homeRobot() {
     return Commands.sequence(
         hopper.changeSetpoint(0),
         claw.changeSetpoint(0),
-        pivot.changeSetpoint(Constants.ArmPivotConstants.initialSetpoint)
-      );
+        pivot.changeSetpoint(Constants.ArmPivotConstants.initialSetpoint));
   }
 
-  /**
-   * Runs the hopper and moves the arm out of the way
-   */
+  /** Runs the hopper and moves the arm out of the way */
   public Command runIntake() {
-    return Commands.sequence(
-      pivot.changeSetpoint(-75), 
-      hopper.changeSetpoint(0.5)
-    );
+    return Commands.sequence(pivot.changeSetpoint(-75), hopper.changeSetpoint(-0.5));
   }
 
-
-  /**
-   * Stops the intake and puts the arm back
-   */
+  /** Stops the intake and puts the arm back */
   public Command stopIntake() {
     return Commands.sequence(
-      hopper.changeSetpoint(0),
-      pivot.changeSetpoint(ArmPivotConstants.initialSetpoint),
-      Commands.waitUntil(pivot::atSetpoint)
-      //ready() //Might be good if the hopper cant jam
-    );
+        hopper.changeSetpoint(0),
+        pivot.changeSetpoint(ArmPivotConstants.initialSetpoint),
+        Commands.waitUntil(pivot::atSetpoint)
+        // ready() //Might be good if the hopper cant jam
+        );
   }
 
   /** Score the coral on the reef pole, or drop onto l1 */
