@@ -132,13 +132,9 @@ public class Superstructure {
     return Commands.sequence(
         logMessage("Score"),
         Commands.either(
-        Commands.sequence(
-          claw.changeSetpoint(0.3),
-          Commands.waitSeconds(0.5),
-          claw.changeSetpoint(0)
-        ),
-        pivot.changeSetpoint(() -> pivotSetpoints[pivotLevel+3]),
-        () -> pivotLevel == 1)
-        );
+            Commands.sequence(
+                claw.changeSetpoint(0.3), Commands.waitSeconds(0.5), claw.changeSetpoint(0)),
+            pivot.changeSetpoint(() -> pivotSetpoints[pivotLevel + 3]),
+            () -> pivotLevel == 1));
   }
 }
