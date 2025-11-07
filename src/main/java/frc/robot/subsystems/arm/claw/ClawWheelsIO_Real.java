@@ -13,7 +13,7 @@ public class ClawWheelsIO_Real implements ClawWheelsIO {
 
   public ClawWheelsIO_Real() {
     clawMotor = new TalonSRX(Constants.CANID.kClawWheels);
-    clawMotor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 20, 20, 0));
+    clawMotor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 30, 30, 0));
     clawMotor.setNeutralMode(NeutralMode.Brake);
     clawMotor.setInverted(false);
   }

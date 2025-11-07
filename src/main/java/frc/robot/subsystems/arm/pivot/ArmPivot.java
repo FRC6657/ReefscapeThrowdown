@@ -4,6 +4,8 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import java.util.function.DoubleSupplier;
+
+import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
 
 public class ArmPivot extends SubsystemBase {
@@ -30,6 +32,7 @@ public class ArmPivot extends SubsystemBase {
     io.changeSetpoint(setpoint);
   }
 
+  @AutoLogOutput(key = "RobotStates/ArmPivotAtSetpoint")
   public boolean atSetpoint() {
     return MathUtil.isNear(inputs.kSetpoint, inputs.kPosition, 2);
   }

@@ -78,8 +78,8 @@ public class Superstructure {
   /** Extends the claw */
   public Command extendClaw() {
     return Commands.sequence(
-        armext.setSpeed(0.1),
-        Commands.waitSeconds(0.2),
+        armext.setSpeed(0.3),
+        Commands.waitSeconds(0.1),
         armext.setSpeed(0),
         Commands.runOnce(
             () -> {
@@ -90,8 +90,8 @@ public class Superstructure {
   /** Retracts the claw */
   public Command retractClaw() {
     return Commands.sequence(
-        armext.setSpeed(-0.1),
-        Commands.waitSeconds(0.5),
+        armext.setSpeed(-0.3),
+        Commands.waitSeconds(0.1),
         armext.setSpeed(0),
         Commands.runOnce(
             () -> {
@@ -102,7 +102,7 @@ public class Superstructure {
   /** Grabs the coral from the tray */
   public Command ready() {
     return Commands.sequence(
-        claw.changeSetpoint(-0.7), extendClaw(), claw.changeSetpoint(0), retractClaw());
+        claw.changeSetpoint(-1.0), extendClaw(), claw.changeSetpoint(0), retractClaw());
   }
 
   /**
@@ -162,10 +162,9 @@ public class Superstructure {
             () -> pivotLevel == 1));
   }
 
-  public Command Taxi(){
+  public Command Taxi() {
     return Commands.sequence(
-      drivebase.runVelocityFieldRelative(() -> new ChassisSpeeds(0.5,0,0)).withTimeout(3.5),
-      drivebase.runVelocityFieldRelative(() -> new ChassisSpeeds(0,0,0)));
+        drivebase.runVelocityFieldRelative(() -> new ChassisSpeeds(0.5, 0, 0)).withTimeout(3.5),
+        drivebase.runVelocityFieldRelative(() -> new ChassisSpeeds(0, 0, 0)));
   }
-
 }

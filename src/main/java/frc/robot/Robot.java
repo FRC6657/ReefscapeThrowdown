@@ -138,19 +138,24 @@ public class Robot extends LoggedRobot {
                         * DriveConstants.kMaxAngularVelocity
                         * 0.25)));
 
-    operator.a().onTrue(superstructure.selectPivotHeight(1));
-    operator.b().onTrue(superstructure.selectPivotHeight(2));
-    operator.y().onTrue(superstructure.selectPivotHeight(3));
-    operator.leftTrigger().onTrue(superstructure.ready());
-    operator.rightTrigger().onTrue(superstructure.runIntake()).onFalse(superstructure.stopIntake());
-    operator.leftBumper().onTrue(superstructure.homeRobot());
+    // operator.a().onTrue(superstructure.selectPivotHeight(1));
+    // operator.b().onTrue(superstructure.selectPivotHeight(2));
+    // operator.y().onTrue(superstructure.selectPivotHeight(3));
+    // operator.leftTrigger().onTrue(superstructure.ready());
+    // operator.rightTrigger().onTrue(superstructure.runIntake()).onFalse(superstructure.stopIntake());
+    // operator.leftBumper().onTrue(superstructure.homeRobot());
 
-    driver.leftBumper().onTrue(superstructure.homeRobot());
-    driver.rightTrigger().onTrue(superstructure.raisePivot());
-    driver.leftTrigger().onTrue(superstructure.Score());
+    // driver.leftBumper().onTrue(superstructure.homeRobot());
+    // driver.rightTrigger().onTrue(superstructure.raisePivot());
+    // driver.leftTrigger().onTrue(superstructure.Score());
+
+    //Debug Buttons
+    driver.povUp().onTrue(pivot.changeSetpoint(55));
+    driver.povDown().onTrue(pivot.changeSetpoint(-90));
 
     driver.a().onTrue(superstructure.extendClaw());
-    driver.a().onFalse(superstructure.retractClaw());
+    driver.b().onTrue(superstructure.retractClaw());
+    driver.y().onTrue(superstructure.ready());
 
     autoChooser.addDefaultOption("Nothing", Commands.print("Nothing Auto Selected"));
     autoChooser.addOption(
