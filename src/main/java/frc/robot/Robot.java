@@ -40,6 +40,11 @@ import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 public class Robot extends LoggedRobot {
 
   private Superstructure superstructure;
+  private MAXSwerve drivebase;
+  private ArmExtension armext;
+  private ClawWheels claw;
+  private ArmPivot pivot;
+  private Hopper hopper;
 
   public static enum RobotMode {
     SIM,
@@ -58,31 +63,34 @@ public class Robot extends LoggedRobot {
   private CommandXboxController driver = new CommandXboxController(0);
   private CommandXboxController operator = new CommandXboxController(1);
 
-  private MAXSwerve drivebase =
-      new MAXSwerve(
-          mode == RobotMode.REAL ? new GyroIO_Real() : new GyroIO() {},
-          mode == RobotMode.REAL
-              ? new MAXSwerveIO[] {
-                new MAXSwerveIO_Real(DriveConstants.kFrontLeftSwerveModule),
-                new MAXSwerveIO_Real(DriveConstants.kFrontRightSwerveModule),
-                new MAXSwerveIO_Real(DriveConstants.kBackLeftSwerveModule),
-                new MAXSwerveIO_Real(DriveConstants.kBackRightSwerveModule)
-              }
-              : new MAXSwerveIO[] {
-                new MAXSwerveIO_Sim(),
-                new MAXSwerveIO_Sim(),
-                new MAXSwerveIO_Sim(),
-                new MAXSwerveIO_Sim()
-              });
-  private ArmPivot pivot =
-      new ArmPivot(mode == RobotMode.REAL ? new ArmPivotIO_Real() : new ArmPivotIO_Sim());
-  private ArmExtension armext =
-      new ArmExtension(
-          mode == RobotMode.REAL ? new ArmExtensionIO_Real() : new ArmExtensionIO_Sim());
-  private ClawWheels claw =
-      new ClawWheels(mode == RobotMode.REAL ? new ClawWheelsIO_Real() : new ClawWheelsIO_Sim());
-  private Hopper hopper =
-      new Hopper(mode == RobotMode.REAL ? new HopperIO_Real() : new HopperIO_Sim());
+  public Robot() {
+
+    drivebase =
+        new MAXSwerve(
+            mode == RobotMode.REAL ? new GyroIO_Real() : new GyroIO() {},
+            mode == RobotMode.REAL
+                ? new MAXSwerveIO[] {
+                  new MAXSwerveIO_Real(DriveConstants.kFrontLeftSwerveModule),
+                  new MAXSwerveIO_Real(DriveConstants.kFrontRightSwerveModule),
+                  new MAXSwerveIO_Real(DriveConstants.kBackLeftSwerveModule),
+                  new MAXSwerveIO_Real(DriveConstants.kBackRightSwerveModule)
+                }
+                : new MAXSwerveIO[] {
+                  new MAXSwerveIO_Sim(),
+                  new MAXSwerveIO_Sim(),
+                  new MAXSwerveIO_Sim(),
+                  new MAXSwerveIO_Sim()
+                });
+    pivot = new ArmPivot(mode == RobotMode.REAL ? new ArmPivotIO_Real() : new ArmPivotIO_Sim());
+    armext =
+        new ArmExtension(
+            mode == RobotMode.REAL ? new ArmExtensionIO_Real() : new ArmExtensionIO_Sim());
+    claw =
+        new ClawWheels(mode == RobotMode.REAL ? new ClawWheelsIO_Real() : new ClawWheelsIO_Sim());
+    hopper = new Hopper(mode == RobotMode.REAL ? new HopperIO_Real() : new HopperIO_Sim());
+
+    superstructure = new Superstructure(drivebase, armext, claw, pivot, hopper);
+  }
 
   @SuppressWarnings(value = "resource")
   @Override
