@@ -6,6 +6,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Constants;
+import frc.robot.Constants.ArmPivotConstants;
 import frc.robot.subsystems.arm.claw.ClawWheels;
 import frc.robot.subsystems.arm.extension.ArmExtension;
 import frc.robot.subsystems.arm.pivot.ArmPivot;
@@ -22,6 +23,7 @@ public class Superstructure {
   private ArmPivot pivot;
   private Hopper hopper;
 
+  @AutoLogOutput(key = "RobotStates/Extention State")
   private String extentionState = "retracted";
 
   // Array for easily grabbing setpoint angles.
@@ -35,7 +37,7 @@ public class Superstructure {
     17, // L3 Score
   };
 
-  @AutoLogOutput(key = "RobotStates/Elevator Level")
+  @AutoLogOutput(key = "RobotStates/Arm Level")
   private int pivotLevel = 2; // Selected Reef Level
 
   public Superstructure(
@@ -72,6 +74,7 @@ public class Superstructure {
     };
   }
 
+  /** Extends the claw */
   public Command extendClaw() {
     return Commands.sequence(
         armext.setSpeed(0.2),
@@ -83,6 +86,7 @@ public class Superstructure {
             }));
   }
 
+  /** Retracts the claw */
   public Command retractClaw() {
     return Commands.sequence(
         armext.setSpeed(-0.2),
@@ -94,40 +98,69 @@ public class Superstructure {
             }));
   }
 
+  /** Grabs the coral from the tray */
   public Command ready() {
     return Commands.sequence(
-        claw.changeSetpoint(-0.3), extendClaw(), claw.changeSetpoint(0), retractClaw());
+        claw.changeSetpoint(-0.7), extendClaw(), claw.changeSetpoint(0), retractClaw());
   }
 
+  /**
+   * Selects the height to raise the arm to when commanded.
+   *
+   * @param height Level to score on [1,2,3]
+   */
   public Command selectPivotHeight(int height) {
     return Commands.runOnce(() -> pivotLevel = height)
         .andThen(logMessage("Selected Pivot Height: " + height));
   }
 
-  // Change Elevator Setpoint to the selected reef level.
+  /** Raise the arm to the height selected by selectPivotHeight */
   public Command raisePivot() {
-    return pivot
-        .changeSetpoint(() -> pivotSetpoints[pivotLevel])
-        .andThen(
-            logMessage(
-                "Pivot Setpoint Changed To: "
-                    + pivotSetpoints[pivotLevel]
-                    + " Reef Level: "
-                    + pivotLevel));
+    return Commands.sequence(
+      retractClaw().onlyIf(() -> (extentionState == "extended")),
+      pivot.changeSetpoint(() -> pivotSetpoints[pivotLevel])
+    ).andThen(
+      logMessage(
+          "Pivot Setpoint Changed To: "
+              + pivotSetpoints[pivotLevel]
+              + " Reef Level: "
+              + pivotLevel));
   }
 
-  public Command HomeRobot() {
+
+  /** Homes the arm and stops all motors */
+  public Command homeRobot() {
     return Commands.sequence(
-        armext.setSpeed(0),
+        hopper.changeSetpoint(0),
         claw.changeSetpoint(0),
-        pivot.changeSetpoint(Constants.ArmPivotConstants.initialSetpoint));
+        pivot.changeSetpoint(Constants.ArmPivotConstants.initialSetpoint)
+      );
   }
 
-  public Command Intake() {
+  /**
+   * Runs the hopper and moves the arm out of the way
+   */
+  public Command runIntake() {
     return Commands.sequence(
-        hopper.changeSetpoint(0.5), Commands.waitSeconds(1), hopper.changeSetpoint(0));
+      pivot.changeSetpoint(-75), 
+      hopper.changeSetpoint(0.5)
+    );
   }
 
+
+  /**
+   * Stops the intake and puts the arm back
+   */
+  public Command stopIntake() {
+    return Commands.sequence(
+      hopper.changeSetpoint(0),
+      pivot.changeSetpoint(ArmPivotConstants.initialSetpoint),
+      Commands.waitUntil(pivot::atSetpoint)
+      //ready() //Might be good if the hopper cant jam
+    );
+  }
+
+  /** Score the coral on the reef pole, or drop onto l1 */
   public Command Score() {
     return Commands.sequence(
         logMessage("Score"),

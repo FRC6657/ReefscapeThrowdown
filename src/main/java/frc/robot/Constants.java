@@ -233,7 +233,7 @@ public class Constants {
   }
 
   public static final class ArmPivotConstants {
-    public static final double gearRatio = (70 / 10) * (70 / 20) * (60 / 15);
+    public static final double gearRatio = (70d / 10) * (70d / 20) * (60d / 15);
     public static final double initialSetpoint = -90; // Remember unit circle!!
     public static final double maxStepoint = 45;
     public static final double kSupplyLimit = 30;
@@ -250,12 +250,12 @@ public class Constants {
         new Slot0Configs()
             .withKS(0) // Volts
             .withKG(0.0) // Volts
-            .withGravityType(GravityTypeValue.Elevator_Static)
+            .withGravityType(GravityTypeValue.Arm_Cosine)
             .withKP(17.0)
             .withKI(0)
             .withKD(0);
-    public static double kMaxVelocity = 50d / 360;
-    public static double kMaxAcceleration = 50d / 360;
+    public static double kMaxVelocity = 250d / 360;
+    public static double kMaxAcceleration = 100d / 360;
     public static MotionMagicConfigs kMotionMagicConfig =
         new MotionMagicConfigs()
             .withMotionMagicCruiseVelocity(kMaxVelocity)

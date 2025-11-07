@@ -67,7 +67,7 @@ public class MAXSwerve extends SubsystemBase {
     // Create the pose estimator
     poseEstimator =
         new SwerveDrivePoseEstimator(
-            kinematics, new Rotation2d(gyroInputs.yawPosition), getModulePositions(), new Pose2d());
+            kinematics, Rotation2d.fromDegrees(gyroInputs.yawPosition), getModulePositions(), new Pose2d());
   }
 
   /** This code runs at 50hz and is responsible for updating the IO and pose estimator */
@@ -92,8 +92,8 @@ public class MAXSwerve extends SubsystemBase {
 
     lastHeading = lastHeading.plus(gyroDelta);
 
-    if (gyroInputs.connected) {
-      poseEstimator.update(new Rotation2d(gyroInputs.yawPosition), getModulePositions());
+    if (RobotBase.isReal()) {
+      poseEstimator.update(Rotation2d.fromDegrees(gyroInputs.yawPosition), getModulePositions());
     } else {
       poseEstimator.update(lastHeading, getModulePositions());
     }
@@ -143,14 +143,6 @@ public class MAXSwerve extends SubsystemBase {
         () ->
             ChassisSpeeds.fromFieldRelativeSpeeds(
                 speeds.get(), getPose().getRotation().plus(new Rotation2d(isRed() ? Math.PI : 0))));
-  }
-
-  public Rotation2d feildRelativeValue() {
-    Rotation2d returnValue = getPose().getRotation();
-    if (isRed()) {
-      returnValue.plus(new Rotation2d(Math.PI));
-    }
-    return returnValue;
   }
 
   private boolean isRed() {
@@ -223,10 +215,8 @@ public class MAXSwerve extends SubsystemBase {
 
   /** Resets the current odometry pose. */
   public void setPose(Pose2d pose) {
-    System.out.println("resetting pose");
     if (RobotBase.isReal()) {
-      poseEstimator.resetPosition(
-          new Rotation2d(gyroInputs.yawPosition), getModulePositions(), pose);
+      poseEstimator.resetPosition(Rotation2d.fromDegrees(gyroInputs.yawPosition), getModulePositions(), pose);
     } else {
       poseEstimator.resetPosition(pose.getRotation(), getModulePositions(), pose);
     }

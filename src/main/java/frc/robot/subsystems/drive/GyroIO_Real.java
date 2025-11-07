@@ -1,17 +1,11 @@
 package frc.robot.subsystems.drive;
 
 import com.ctre.phoenix.sensors.PigeonIMU;
-import edu.wpi.first.math.util.Units;
 import frc.robot.Constants.CANID;
-import frc.robot.Constants.CodeConstants;
 
 public class GyroIO_Real implements GyroIO {
 
   private final PigeonIMU pigeon = new PigeonIMU(CANID.kPigeon);
-
-  private double yaw = pigeon.getYaw();
-  private double previousYaw = yaw;
-  private double yawVelocity = 0.0;
 
   /** Gyro IO for real robot */
   public GyroIO_Real() {
@@ -21,10 +15,6 @@ public class GyroIO_Real implements GyroIO {
 
   @Override
   public void updateInputs(GyroIOInputs inputs) {
-    yaw = pigeon.getYaw();
-    inputs.yawPosition = yaw;
-    yawVelocity = (yaw - previousYaw) / CodeConstants.kMainLoopFrequency;
-    previousYaw = yaw;
-    inputs.yawVelocityRadPerSec = Units.degreesToRadians(yawVelocity);
+    inputs.yawPosition = pigeon.getFusedHeading();
   }
 }
