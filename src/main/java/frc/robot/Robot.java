@@ -87,6 +87,8 @@ public class Robot extends LoggedRobot {
     claw =
         new ClawWheels(mode == RobotMode.REAL ? new ClawWheelsIO_Real() : new ClawWheelsIO_Sim());
     hopper = new Hopper(mode == RobotMode.REAL ? new HopperIO_Real() : new HopperIO_Sim());
+
+    superstructure = new Superstructure(drivebase, armext, claw, pivot, hopper);
   }
 
   @SuppressWarnings(value = "resource")
