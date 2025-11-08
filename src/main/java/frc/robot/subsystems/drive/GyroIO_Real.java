@@ -17,4 +17,9 @@ public class GyroIO_Real implements GyroIO {
   public void updateInputs(GyroIOInputs inputs) {
     inputs.yawPosition = pigeon.getFusedHeading();
   }
+
+  @Override
+  public void zeroYaw() {
+    pigeon.setYaw(0);
+  }
 }

@@ -130,35 +130,47 @@ public class Robot extends LoggedRobot {
                 new ChassisSpeeds(
                     -MathUtil.applyDeadband(driver.getLeftY(), 0.05)
                         * MAXSwerveConstants.kMaxDriveSpeed
-                        * 0.25,
+                        * 0.75,
                     -MathUtil.applyDeadband(driver.getLeftX(), 0.15)
                         * MAXSwerveConstants.kMaxDriveSpeed
-                        * 0.25,
+                        * 0.75,
                     -MathUtil.applyDeadband(driver.getRightX(), 0.15)
                         * DriveConstants.kMaxAngularVelocity
-                        * 0.25)));
+                        * 0.5)));
 
-    // operator.a().onTrue(superstructure.selectPivotHeight(1));
-    // operator.b().onTrue(superstructure.selectPivotHeight(2));
-    // operator.y().onTrue(superstructure.selectPivotHeight(3));
-    // operator.leftTrigger().onTrue(superstructure.ready());
-    // operator.rightTrigger().onTrue(superstructure.runIntake()).onFalse(superstructure.stopIntake());
-    // operator.leftBumper().onTrue(superstructure.homeRobot());
+    operator.a().onTrue(superstructure.selectPivotHeight(1));
+    operator.b().onTrue(superstructure.selectPivotHeight(2));
+    operator.y().onTrue(superstructure.selectPivotHeight(3));
+    operator.leftTrigger().onTrue(superstructure.ready());
+    operator.rightTrigger().onTrue(superstructure.runIntake()).onFalse(superstructure.stopIntake());
+    operator.leftBumper().onTrue(superstructure.homeRobot());
 
-    // driver.leftBumper().onTrue(superstructure.homeRobot());
-    // driver.rightTrigger().onTrue(superstructure.raisePivot());
-    // driver.leftTrigger().onTrue(superstructure.Score());
+    // operator.a().onTrue(pivot.changeSetpoint(-17));
+    // operator.b().onTrue(pivot.changeSetpoint(12));
+    // operator.y().onTrue(pivot.changeSetpoint(55));
+    // operator.a().onFalse(claw.changeSetpoint(0.75));
+    // operator.b().onFalse(pivot.changeSetpoint(-25));
+    // operator.y().onFalse(pivot.changeSetpoint(17));
 
-    //Debug Buttons
-    driver.povUp().onTrue(pivot.changeSetpoint(55));
-    driver.povDown().onTrue(pivot.changeSetpoint(-90));
+    driver.leftBumper().onTrue(superstructure.homeRobot());
+    driver.rightTrigger().onTrue(superstructure.raisePivot());
+    driver.leftTrigger().onTrue(superstructure.Score());
+    driver.b().onTrue(drivebase.zeroYaw());
 
-    driver.a().onTrue(superstructure.extendClaw());
-    driver.b().onTrue(superstructure.retractClaw());
-    driver.y().onTrue(superstructure.ready());
+    // Debug Buttons
+    // driver.povUp().onTrue(pivot.changeSetpoint(55));
+    // driver.povDown().onTrue(pivot.changeSetpoint(-90));
 
-    autoChooser.addDefaultOption("Nothing", Commands.print("Nothing Auto Selected"));
-    autoChooser.addOption(
+    // driver.a().onTrue(superstructure.extendClaw());
+    // driver.b().onTrue(superstructure.retractClaw());
+    // driver.y().onTrue(superstructure.ready());
+
+    // driver.a().onTrue(superstructure.selectPivotHeight(1));
+    // driver.b().onTrue(superstructure.selectPivotHeight(2));
+    // driver.y().onTrue(superstructure.selectPivotHeight(3));
+
+    autoChooser.addOption("Nothing", Commands.print("Nothing Auto Selected"));
+    autoChooser.addDefaultOption(
         "Taxi",
         Commands.sequence(drivebase.runVelocity(() -> new ChassisSpeeds(1, 0, 0)).withTimeout(2)));
   }

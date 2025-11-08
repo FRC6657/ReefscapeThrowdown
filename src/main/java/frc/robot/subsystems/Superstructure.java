@@ -41,6 +41,10 @@ public class Superstructure {
   @AutoLogOutput(key = "RobotStates/Arm Level")
   private int pivotLevel = 2; // Selected Reef Level
 
+  private int returnPivotLevel() {
+    return pivotLevel;
+  }
+
   public Superstructure(
       MAXSwerve drivebase, ArmExtension armext, ClawWheels claw, ArmPivot pivot, Hopper hopper) {
     this.drivebase = drivebase;
@@ -78,8 +82,8 @@ public class Superstructure {
   /** Extends the claw */
   public Command extendClaw() {
     return Commands.sequence(
-        armext.setSpeed(0.3),
-        Commands.waitSeconds(0.1),
+        armext.setSpeed(0.23),
+        Commands.waitSeconds(1.1),
         armext.setSpeed(0),
         Commands.runOnce(
             () -> {
@@ -90,8 +94,8 @@ public class Superstructure {
   /** Retracts the claw */
   public Command retractClaw() {
     return Commands.sequence(
-        armext.setSpeed(-0.3),
-        Commands.waitSeconds(0.1),
+        armext.setSpeed(-0.2),
+        Commands.waitSeconds(1.1),
         armext.setSpeed(0),
         Commands.runOnce(
             () -> {
@@ -102,7 +106,11 @@ public class Superstructure {
   /** Grabs the coral from the tray */
   public Command ready() {
     return Commands.sequence(
-        claw.changeSetpoint(-1.0), extendClaw(), claw.changeSetpoint(0), retractClaw());
+        claw.changeSetpoint(-1.0),
+        extendClaw(),
+        Commands.waitSeconds(0.25),
+        claw.changeSetpoint(0),
+        retractClaw());
   }
 
   /**
@@ -138,7 +146,7 @@ public class Superstructure {
 
   /** Runs the hopper and moves the arm out of the way */
   public Command runIntake() {
-    return Commands.sequence(pivot.changeSetpoint(-75), hopper.changeSetpoint(-0.5));
+    return Commands.sequence(pivot.changeSetpoint(-75), hopper.changeSetpoint(-1.0));
   }
 
   /** Stops the intake and puts the arm back */
@@ -157,7 +165,7 @@ public class Superstructure {
         logMessage("Score"),
         Commands.either(
             Commands.sequence(
-                claw.changeSetpoint(0.3), Commands.waitSeconds(0.5), claw.changeSetpoint(0)),
+                claw.changeSetpoint(1.0), Commands.waitSeconds(0.5), claw.changeSetpoint(0)),
             pivot.changeSetpoint(() -> pivotSetpoints[pivotLevel + 3]),
             () -> pivotLevel == 1));
   }

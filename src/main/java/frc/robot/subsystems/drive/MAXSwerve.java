@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.CodeConstants;
@@ -146,6 +147,10 @@ public class MAXSwerve extends SubsystemBase {
         () ->
             ChassisSpeeds.fromFieldRelativeSpeeds(
                 speeds.get(), getPose().getRotation().plus(new Rotation2d(isRed() ? Math.PI : 0))));
+  }
+
+  public Command zeroYaw() {
+    return Commands.runOnce(() -> gyroIO.zeroYaw());
   }
 
   private boolean isRed() {

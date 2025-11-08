@@ -13,7 +13,7 @@ public class ArmPivotIO_Real implements ArmPivotIO {
   TalonFX pivotMotor = new TalonFX(Constants.CANID.kPivot);
   private MotionMagicVoltage motionMagicVoltage =
       new MotionMagicVoltage(Constants.ArmPivotConstants.initialSetpoint / 360);
-      
+
   public ArmPivotIO_Real() {
 
     var motorConfigurator = pivotMotor.getConfigurator();

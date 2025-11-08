@@ -36,8 +36,8 @@ public class Constants {
 
     public static final int kPigeon = 9;
     public static final int kPivot = 10;
-    public static final int kClawWheels = 11;
-    public static final int kClawExtension = 12;
+    public static final int kClawWheels = 12;
+    public static final int kClawExtension = 11;
     public static final int kHopper = 13;
   }
 
@@ -235,7 +235,7 @@ public class Constants {
   public static final class ArmPivotConstants {
     public static final double gearRatio = (70d / 10) * (70d / 20) * (60d / 15);
     public static final double initialSetpoint = -90; // Remember unit circle!!
-    public static final double maxStepoint = 45;
+    public static final double maxStepoint = 80;
     public static final double kSupplyLimit = 30;
     public static final double kStatorLimit = 60;
     public static final CurrentLimitsConfigs currentConfigs =
@@ -251,11 +251,11 @@ public class Constants {
             .withKS(0) // Volts
             .withKG(0.0) // Volts
             .withGravityType(GravityTypeValue.Arm_Cosine)
-            .withKP(30.0)
+            .withKP(100.0)
             .withKI(0)
             .withKD(0);
     public static double kMaxVelocity = 390d / 360;
-    public static double kMaxAcceleration = 200d / 360;
+    public static double kMaxAcceleration = 400d / 360;
     public static MotionMagicConfigs kMotionMagicConfig =
         new MotionMagicConfigs()
             .withMotionMagicCruiseVelocity(kMaxVelocity)
