@@ -251,7 +251,7 @@ public class Constants {
             .withKS(0) // Volts
             .withKG(0.0) // Volts
             .withGravityType(GravityTypeValue.Arm_Cosine)
-            .withKP(35.0)
+            .withKP(30.0)
             .withKI(0)
             .withKD(0);
     public static double kMaxVelocity = 390d / 360;
