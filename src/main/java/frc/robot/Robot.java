@@ -29,6 +29,7 @@ import frc.robot.subsystems.drive.GyroIO_Real;
 import frc.robot.subsystems.drive.MAXSwerve;
 import frc.robot.subsystems.drive.MAXSwerveIO;
 import frc.robot.subsystems.drive.MAXSwerveIO_Real;
+import frc.robot.subsystems.drive.MAXSwerveIO_Relative;
 import frc.robot.subsystems.drive.MAXSwerveIO_Sim;
 import frc.robot.subsystems.hopper.Hopper;
 import frc.robot.subsystems.hopper.HopperIO_Real;
@@ -77,7 +78,7 @@ public class Robot extends LoggedRobot {
                   new MAXSwerveIO_Real(DriveConstants.kFrontLeftSwerveModule),
                   new MAXSwerveIO_Real(DriveConstants.kFrontRightSwerveModule),
                   new MAXSwerveIO_Real(DriveConstants.kBackLeftSwerveModule),
-                  new MAXSwerveIO_Real(DriveConstants.kBackRightSwerveModule)
+                  new MAXSwerveIO_Relative(DriveConstants.kBackRightSwerveModule)
                 }
                 : new MAXSwerveIO[] {
                   new MAXSwerveIO_Sim(),
