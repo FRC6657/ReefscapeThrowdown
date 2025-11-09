@@ -1,7 +1,11 @@
 package frc.robot;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -25,6 +29,7 @@ import frc.robot.subsystems.drive.GyroIO_Real;
 import frc.robot.subsystems.drive.MAXSwerve;
 import frc.robot.subsystems.drive.MAXSwerveIO;
 import frc.robot.subsystems.drive.MAXSwerveIO_Real;
+import frc.robot.subsystems.drive.MAXSwerveIO_Relative;
 import frc.robot.subsystems.drive.MAXSwerveIO_Sim;
 import frc.robot.subsystems.hopper.Hopper;
 import frc.robot.subsystems.hopper.HopperIO_Real;
@@ -73,7 +78,7 @@ public class Robot extends LoggedRobot {
                   new MAXSwerveIO_Real(DriveConstants.kFrontLeftSwerveModule),
                   new MAXSwerveIO_Real(DriveConstants.kFrontRightSwerveModule),
                   new MAXSwerveIO_Real(DriveConstants.kBackLeftSwerveModule),
-                  new MAXSwerveIO_Real(DriveConstants.kBackRightSwerveModule)
+                  new MAXSwerveIO_Relative(DriveConstants.kBackRightSwerveModule)
                 }
                 : new MAXSwerveIO[] {
                   new MAXSwerveIO_Sim(),
@@ -130,35 +135,57 @@ public class Robot extends LoggedRobot {
                 new ChassisSpeeds(
                     -MathUtil.applyDeadband(driver.getLeftY(), 0.05)
                         * MAXSwerveConstants.kMaxDriveSpeed
-                        * 0.25,
+                        * 0.75,
                     -MathUtil.applyDeadband(driver.getLeftX(), 0.15)
                         * MAXSwerveConstants.kMaxDriveSpeed
-                        * 0.25,
+                        * 0.75,
                     -MathUtil.applyDeadband(driver.getRightX(), 0.15)
                         * DriveConstants.kMaxAngularVelocity
-                        * 0.25)));
+                        * 0.5)));
 
-    // operator.a().onTrue(superstructure.selectPivotHeight(1));
-    // operator.b().onTrue(superstructure.selectPivotHeight(2));
-    // operator.y().onTrue(superstructure.selectPivotHeight(3));
-    // operator.leftTrigger().onTrue(superstructure.ready());
-    // operator.rightTrigger().onTrue(superstructure.runIntake()).onFalse(superstructure.stopIntake());
-    // operator.leftBumper().onTrue(superstructure.homeRobot());
+    operator.a().onTrue(superstructure.selectPivotHeight(1));
+    operator.b().onTrue(superstructure.selectPivotHeight(2));
+    operator.y().onTrue(superstructure.selectPivotHeight(3));
+    operator.leftTrigger().onTrue(superstructure.ready());
+    operator.rightTrigger().onTrue(superstructure.runIntake()).onFalse(superstructure.stopIntake());
+    operator.leftBumper().onTrue(superstructure.homeRobot());
 
-    // driver.leftBumper().onTrue(superstructure.homeRobot());
-    // driver.rightTrigger().onTrue(superstructure.raisePivot());
-    // driver.leftTrigger().onTrue(superstructure.Score());
+    // operator.a().onTrue(pivot.changeSetpoint(-17));
+    // operator.b().onTrue(pivot.changeSetpoint(12));
+    // operator.y().onTrue(pivot.changeSetpoint(55));
+    // operator.a().onFalse(claw.changeSetpoint(0.75));
+    // operator.b().onFalse(pivot.changeSetpoint(-25));
+    // operator.y().onFalse(pivot.changeSetpoint(17));
 
-    //Debug Buttons
-    driver.povUp().onTrue(pivot.changeSetpoint(55));
-    driver.povDown().onTrue(pivot.changeSetpoint(-90));
+    driver.leftBumper().onTrue(superstructure.homeRobot());
+    driver.rightTrigger().onTrue(superstructure.raisePivot());
+    driver.leftTrigger().onTrue(superstructure.Score());
+    driver
+        .b()
+        .onTrue(
+            Commands.runOnce(
+                () ->
+                    drivebase.setPose(
+                        new Pose2d(
+                            drivebase.getPose().getTranslation(),
+                            (DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red)
+                                ? Rotation2d.k180deg
+                                : Rotation2d.kZero))));
 
-    driver.a().onTrue(superstructure.extendClaw());
-    driver.b().onTrue(superstructure.retractClaw());
-    driver.y().onTrue(superstructure.ready());
+    // Debug Buttons
+    // driver.povUp().onTrue(pivot.changeSetpoint(55));
+    // driver.povDown().onTrue(pivot.changeSetpoint(-90));
 
-    autoChooser.addDefaultOption("Nothing", Commands.print("Nothing Auto Selected"));
-    autoChooser.addOption(
+    // driver.a().onTrue(superstructure.extendClaw());
+    // driver.b().onTrue(superstructure.retractClaw());
+    // driver.y().onTrue(superstructure.ready());
+
+    // driver.a().onTrue(superstructure.selectPivotHeight(1));
+    // driver.b().onTrue(superstructure.selectPivotHeight(2));
+    // driver.y().onTrue(superstructure.selectPivotHeight(3));
+
+    autoChooser.addOption("Nothing", Commands.print("Nothing Auto Selected"));
+    autoChooser.addDefaultOption(
         "Taxi",
         Commands.sequence(drivebase.runVelocity(() -> new ChassisSpeeds(1, 0, 0)).withTimeout(2)));
   }
