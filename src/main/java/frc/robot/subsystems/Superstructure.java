@@ -82,8 +82,8 @@ public class Superstructure {
   /** Extends the claw */
   public Command extendClaw() {
     return Commands.sequence(
-        armext.setSpeed(0.23),
-        Commands.waitSeconds(1.1),
+        armext.setSpeed(0.35),
+        Commands.waitSeconds(0.6),
         armext.setSpeed(0),
         Commands.runOnce(
             () -> {
@@ -94,8 +94,8 @@ public class Superstructure {
   /** Retracts the claw */
   public Command retractClaw() {
     return Commands.sequence(
-        armext.setSpeed(-0.2),
-        Commands.waitSeconds(1.1),
+        armext.setSpeed(-0.5),
+        Commands.waitSeconds(0.3),
         armext.setSpeed(0),
         Commands.runOnce(
             () -> {
@@ -108,9 +108,9 @@ public class Superstructure {
     return Commands.sequence(
         claw.changeSetpoint(-1.0),
         extendClaw(),
-        Commands.waitSeconds(0.25),
-        claw.changeSetpoint(0),
-        retractClaw());
+        Commands.waitSeconds(0.15),
+        retractClaw(),
+        claw.changeSetpoint(0));
   }
 
   /**

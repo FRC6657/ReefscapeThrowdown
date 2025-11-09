@@ -1,7 +1,11 @@
 package frc.robot;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -155,7 +159,17 @@ public class Robot extends LoggedRobot {
     driver.leftBumper().onTrue(superstructure.homeRobot());
     driver.rightTrigger().onTrue(superstructure.raisePivot());
     driver.leftTrigger().onTrue(superstructure.Score());
-    driver.b().onTrue(drivebase.zeroYaw());
+    driver
+        .b()
+        .onTrue(
+            Commands.runOnce(
+                () ->
+                    drivebase.setPose(
+                        new Pose2d(
+                            drivebase.getPose().getTranslation(),
+                            (DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red)
+                                ? Rotation2d.k180deg
+                                : Rotation2d.kZero))));
 
     // Debug Buttons
     // driver.povUp().onTrue(pivot.changeSetpoint(55));

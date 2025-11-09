@@ -220,7 +220,7 @@ public class Constants {
   }
 
   public static class ClawWheels {
-    public static final double kSupplyLimit = 20;
+    public static final double kSupplyLimit = 30;
     public static final double kStatorLimit = 40;
     public static final CurrentLimitsConfigs currentConfigs =
         new CurrentLimitsConfigs()
@@ -255,7 +255,7 @@ public class Constants {
             .withKI(0)
             .withKD(0);
     public static double kMaxVelocity = 390d / 360;
-    public static double kMaxAcceleration = 400d / 360;
+    public static double kMaxAcceleration = 800d / 360;
     public static MotionMagicConfigs kMotionMagicConfig =
         new MotionMagicConfigs()
             .withMotionMagicCruiseVelocity(kMaxVelocity)
