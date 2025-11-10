@@ -13,7 +13,7 @@ public class ArmExtensionIO_Real implements ArmExtensionIO {
   public ArmExtensionIO_Real() {
     motor = new TalonSRX(CANID.kClawExtension);
     motor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 5, 5, 0));
-    motor.setInverted(false);
+    motor.setInverted(true);
     motor.setNeutralMode(NeutralMode.Brake);
   }
 

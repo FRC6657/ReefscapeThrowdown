@@ -14,8 +14,6 @@ public class ArmPivotIO_Real implements ArmPivotIO {
   private MotionMagicVoltage motionMagicVoltage =
       new MotionMagicVoltage(Constants.ArmPivotConstants.initialSetpoint / 360);
 
-  private double kSetpoint = Constants.ArmPivotConstants.initialSetpoint;
-
   public ArmPivotIO_Real() {
 
     var motorConfigurator = pivotMotor.getConfigurator();
