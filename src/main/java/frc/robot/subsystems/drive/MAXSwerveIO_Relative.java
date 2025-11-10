@@ -62,6 +62,8 @@ public class MAXSwerveIO_Relative implements MAXSwerveIO {
     driveConfig.encoder.velocityConversionFactor(
         MAXSwerveConstants.kDriveEncoderVelocityFactor); // meters per second
 
+    driveConfig.inverted(true);
+
     turnConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder);
     turnConfig.closedLoop.pid(
         MAXSwerveConstants.kTurnP, MAXSwerveConstants.kTurnI, MAXSwerveConstants.kTurnD);
@@ -119,14 +121,13 @@ public class MAXSwerveIO_Relative implements MAXSwerveIO {
   /** Sets the turn angle setpoint */
   @Override
   public void setTurnAngle(Rotation2d angle) {
-    turnSetpoint = angle.getRadians() - moduleInformation.moduleOffset.getRadians();
-    turnPID.setReference(
-        angle.getRadians() - moduleInformation.moduleOffset.getRadians(), ControlType.kPosition);
+    turnSetpoint = angle.getRadians();
+    turnPID.setReference(angle.getRadians(), ControlType.kPosition);
   }
 
   /** Get the turn angle */
   @Override
   public Rotation2d getTurnAngle() {
-    return new Rotation2d(turnEncoder.getPosition() + moduleInformation.moduleOffset.getRadians());
+    return new Rotation2d(turnEncoder.getPosition());
   }
 }
